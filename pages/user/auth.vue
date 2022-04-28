@@ -16,6 +16,7 @@
               v-model="email"
               :rules="[rules.required, rules.email]"
               label="E-mail"
+              solo
               dense
               outlined
               required
@@ -30,6 +31,7 @@
               :append-icon="isPassShow ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="isPassShow = !isPassShow"
               dense
+              solo
               outlined
               required
             ></v-text-field>
@@ -41,6 +43,7 @@
               :rules="[rules.required]"
               :items="roles"
               hide-selected
+              solo
               label="Role"
               outlined
               clearable
