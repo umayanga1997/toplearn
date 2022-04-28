@@ -28,7 +28,9 @@
               :rules="[rules.required, rules.mincounter, rules.maxcounter]"
               :type="isPassShow ? 'text' : 'password'"
               label="Password"
-              :append-icon="isPassShow ? 'mdi-eye' : 'mdi-eye-off'"
+              :append-icon="
+                isPassShow ? 'mdi-eye-outline' : 'mdi-eye-off-outline'
+              "
               @click:append="isPassShow = !isPassShow"
               dense
               solo
