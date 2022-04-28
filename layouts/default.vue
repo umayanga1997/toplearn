@@ -49,45 +49,46 @@
       <!-- Tabs -->
       <!-- Default Page Like Home Page -->
       <v-tabs-items v-model="tab">
-        <v-tab-item class="tab_container" v-for="item in items" :key="item">
+        <v-tab-item
+          class="tab_container"
+          v-for="(item, index) in items"
+          :key="item"
+        >
           <v-container fluid>
-            <v-card class="mx-auto" max-width="344">
-              <v-img
-                src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-                height="200px"
-              ></v-img>
-
-              <v-card-title> Top western road trips </v-card-title>
-
-              <v-card-subtitle> 1,000 miles of wonder </v-card-subtitle>
-
-              <v-card-actions>
-                <v-btn color="orange lighten-2" text> Explore </v-btn>
-
-                <v-spacer></v-spacer>
-
-                <v-btn icon @click="show = !show">
-                  <v-icon>{{
-                    show ? "mdi-chevron-up" : "mdi-chevron-down"
-                  }}</v-icon>
-                </v-btn>
-              </v-card-actions>
-
-              <v-expand-transition>
-                <div v-show="show">
-                  <v-divider></v-divider>
-
-                  <v-card-text>
-                    I'm a thing. But, like most politicians, he promised more
-                    than he could deliver. You won't have time for sleeping,
-                    soldier, not with all the bed making you'll be doing. Then
-                    we'll go with that data file! Hey, you add a one and two
-                    zeros to that or we walk! You're going to do his laundry?
-                    I've got to find a way to escape.
-                  </v-card-text>
-                </div>
-              </v-expand-transition>
-            </v-card>
+            <v-row
+              v-if="index == 0"
+              justify="center"
+              class="ma-0 pa-0 card-section"
+              dense
+            >
+              <video-card />
+              <video-card />
+              <video-card />
+              <video-card />
+              <video-card />
+            </v-row>
+            <v-row
+              v-else-if="index == 1"
+              justify="center"
+              class="ma-0 pa-0 card-section"
+              dense
+            >
+              <test-card />
+              <test-card />
+              <test-card />
+              <test-card />
+              <test-card />
+              <test-card />
+              <test-card />
+              <test-card />
+            </v-row>
+            <v-row v-else justify="center" class="ma-0 pa-0 card-section" dense>
+              <online-card />
+              <online-card />
+              <online-card />
+              <online-card />
+              <online-card />
+            </v-row>
           </v-container>
         </v-tab-item>
       </v-tabs-items>
@@ -153,5 +154,13 @@ export default {
 <style lang="scss">
 .tab_container {
   background-color: #121212 !important;
+}
+.card-section {
+  gap: 15px;
+  white-space: normal;
+  & .v-card {
+    padding: 0px !important;
+    margin: 0px !important;
+  }
 }
 </style>
