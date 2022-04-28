@@ -25,7 +25,7 @@
             v-model="password"
             :type="isPassShow ? 'text' : 'password'"
             label="Password"
-            :append-icon="isPassShow ? 'mdi-eye' : 'mdi-form-textbox-password'"
+            :append-icon="isPassShow ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="isPassShow = !isPassShow"
             dense
             outlined
