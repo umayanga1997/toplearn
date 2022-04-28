@@ -10,40 +10,44 @@
         <v-avatar size="76" class="ma-5 indigo darken-1"
           ><v-icon size="35">mdi-account</v-icon></v-avatar
         >
-        <v-col class="pa-0 ma-0 pt-5">
-          <v-text-field
-            v-model="email"
-            :rules="emailRules"
-            label="E-mail"
-            dense
-            outlined
-            required
-          ></v-text-field>
-        </v-col>
-        <v-col class="pa-0 ma-0">
-          <v-text-field
-            v-model="password"
-            :type="isPassShow ? 'text' : 'password'"
-            label="Password"
-            :append-icon="isPassShow ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="isPassShow = !isPassShow"
-            dense
-            outlined
-            required
-          ></v-text-field>
-        </v-col>
-        <v-col class="pa-0 ma-0">
-          <v-select
-            dense
-            v-model="selectedRole"
-            :items="roles"
-            hide-selected
-            label="Role"
-            outlined
-            clearable
-            required
-          ></v-select>
-        </v-col>
+        <v-form ref="form" lazy-validation>
+          <v-col class="pa-0 ma-0 pt-5">
+            <v-text-field
+              v-model="email"
+              :rules="[rules.required, rules.email]"
+              label="E-mail"
+              dense
+              outlined
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col class="pa-0 ma-0">
+            <v-text-field
+              v-model="password"
+              :rules="[rules.required, rules.mincounter, rules.maxcounter]"
+              :type="isPassShow ? 'text' : 'password'"
+              label="Password"
+              :append-icon="isPassShow ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="isPassShow = !isPassShow"
+              dense
+              outlined
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col class="pa-0 ma-0">
+            <v-select
+              dense
+              v-model="selectedRole"
+              :rules="[rules.required]"
+              :items="roles"
+              hide-selected
+              label="Role"
+              outlined
+              clearable
+              required
+            ></v-select>
+          </v-col>
+        </v-form>
       </v-card-text>
       <v-card-actions class="pb-5">
         <v-spacer></v-spacer>
@@ -74,20 +78,32 @@ export default {
       tab: null,
       selectedRole: null,
       roles: ["Student", "Teacher"],
-      email: null,
-      password: null,
+      email: "",
+      password: "",
       isPassShow: false,
       btnLoading: false,
+      rules: {
+        required: (value) => !!value || "Required.",
+        mincounter: (value) => value.length >= 6 || "Min 6 characters",
+        maxcounter: (value) => value.length <= 15 || "Max 15 characters",
+        email: (value) => {
+          const pattern =
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(value) || "Invalid e-mail.";
+        },
+      },
     };
   },
   methods: {
     signIn() {
       try {
+        this.$refs.form.validate();
         console.log("Sign In");
       } catch (error) {}
     },
     signUp() {
       try {
+        this.$refs.form.validate();
         console.log("Sign Up");
       } catch (error) {}
     },
