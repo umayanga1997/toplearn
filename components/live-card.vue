@@ -38,7 +38,7 @@
               <p class="title-text ma-0 pa-0">
                 Your can request to a live class
               </p>
-              <v-btn class="green mt-2">Request </v-btn>
+              <v-btn class="green darken-2 mt-2">Request </v-btn>
             </v-col>
           </v-card-text>
         </div>
