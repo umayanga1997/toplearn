@@ -2,7 +2,7 @@ import colors from "vuetify/es5/util/colors";
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  ssr: true,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -40,8 +40,32 @@ export default {
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
     "@nuxtjs/style-resources",
+    [
+      "@nuxtjs/firebase",
+      {
+        config: {
+          apiKey: "<apiKey>",
+          authDomain: "<authDomain>",
+          projectId: "<projectId>",
+          storageBucket: "<storageBucket>",
+          messagingSenderId: "<messagingSenderId>",
+          appId: "<appId>",
+          measurementId: "<measurementId>",
+        },
+        services: {
+          auth: true,
+          firestore: true,
+          // functions: true,
+          // storage: true,
+          // database: true,
+          // messaging: true,
+          // performance: true,
+          analytics: true,
+          // remoteConfig: true
+        },
+      },
+    ],
   ],
-
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
