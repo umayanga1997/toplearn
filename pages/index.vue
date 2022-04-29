@@ -8,7 +8,7 @@
 
       <v-spacer />
       <v-btn icon @click="filterDialog = !filterDialog">
-        <v-icon>mdi-filter</v-icon>
+        <v-icon color="orange">mdi-filter</v-icon>
       </v-btn>
 
       <template v-slot:extension>
@@ -97,7 +97,7 @@
 <script>
 import videospage from "@/pages/main/videos.vue";
 import tests from "@/pages/main/tests.vue";
-import onlineclass from "@/pages/main/online-class.vue";
+import onlineclass from "~/pages/main/live-class.vue";
 
 export default {
   name: "DefaultLayout",

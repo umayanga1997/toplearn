@@ -1,9 +1,14 @@
 <template>
   <v-col cols="12" md="6" lg="3" sm="6" xl="2" class="ma-0 pa-0">
     <v-card>
-      <v-card-title> Top western road trips </v-card-title>
+      <v-row justify="space-between" align="center" class="pr-5 pt-4 ma-0">
+        <v-card-title class="pb-0 pt-0"> Top western road trips </v-card-title>
+        <v-btn icon><v-icon color="red">mdi-delete</v-icon></v-btn>
+      </v-row>
 
-      <v-card-subtitle> 1,000 miles of wonder </v-card-subtitle>
+      <v-card-subtitle class="pb-0 pt-0">
+        1,000 miles of wonder
+      </v-card-subtitle>
 
       <v-card-actions>
         <!-- <v-btn color="orange lighten-3" text> Explore </v-btn> -->

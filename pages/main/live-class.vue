@@ -6,7 +6,7 @@
     <live-card />
     <live-card />
     <v-fab-transition>
-      <v-btn fab large dark bottom fixed left class="mb-10 green darken-3">
+      <v-btn fab large dark bottom fixed left class="mb-10 green">
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-fab-transition>
