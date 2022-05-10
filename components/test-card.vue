@@ -12,12 +12,13 @@
         Count of Bought : {{ boughtCount }}
       </p>
 
-      <v-card-actions>
+      <v-card-actions class="pr-3 pb-3">
         <v-spacer></v-spacer>
 
-        <v-btn icon @click="navigate" color="orange">
+        <v-btn v-if="verified" icon @click="navigate" color="orange">
           <v-icon>mdi-note-edit</v-icon>
         </v-btn>
+        <v-btn v-else color="green darlen-3"> Buy </v-btn>
       </v-card-actions>
     </v-card>
   </v-col>

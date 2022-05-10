@@ -10,9 +10,9 @@
         Count of Enrolment : {{ enrolCount }}
       </p>
 
-      <v-card-actions>
+      <v-card-actions class="pr-3 pb-3">
         <v-spacer></v-spacer>
-
+        <v-btn v-if="!verified" color="green darlen-3"> Buy </v-btn>
         <v-btn icon @click="show = !show" color="green">
           <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
         </v-btn>
@@ -23,7 +23,7 @@
           <v-divider></v-divider>
 
           <v-card-text>
-            <v-col class="ma-0 pa-0">
+            <v-col v-if="verified" class="ma-0 pa-0">
               <span class="title-text">Link</span>
               <p class="subtitle-text">{{ item.link }}</p>
             </v-col>
