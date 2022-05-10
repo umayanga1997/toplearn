@@ -14,6 +14,26 @@
               required
             ></v-text-field>
           </v-col>
+          <v-col class="pl-0 pr-0 pt-5">
+            <v-text-field
+              v-model="name_of_trustee"
+              label="Name of Trustee"
+              solo
+              dense
+              outlined
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col class="pl-0 pr-0 pt-5">
+            <v-text-field
+              v-model="mobile_no"
+              label="Mobile No"
+              solo
+              dense
+              outlined
+              required
+            ></v-text-field>
+          </v-col>
           <v-row class="ma-0 pa-0 pt-3">
             <v-spacer></v-spacer>
             <v-btn
@@ -61,6 +81,9 @@ export default {
     return {
       name: "",
       email: "",
+      name: "",
+      name_of_trustee: "",
+      mobile_no: "",
       isPassShow: false,
       btnDisable: false,
       btnLoadingReset: false,
@@ -81,6 +104,8 @@ export default {
     userData(value) {
       this.name = value?.name;
       this.email = value?.email;
+      this.name_of_trustee = value?.name_of_trustee;
+      this.mobile_no = value?.mobile_no;
       // this.password = value?.password;
     },
   },
@@ -92,6 +117,16 @@ export default {
             "Please enter Name",
             "error",
           ]);
+        } else if (this.name_of_trustee == null || this.name_of_trustee == "") {
+          this.$store.dispatch("alertState/message", [
+            "Please enter Name of Trustee",
+            "error",
+          ]);
+        } else if (this.mobile_no == null || this.mobile_no == "") {
+          this.$store.dispatch("alertState/message", [
+            "Please enter Mobile Number",
+            "error",
+          ]);
         } else {
           this.btnLoadingUpdate = true;
           this.btnDisable = true;
@@ -101,6 +136,8 @@ export default {
                 .doc(user.uid)
                 .update({
                   name: this.name,
+                  name_of_trustee: this.name_of_trustee,
+                  mobile_no: this.mobile_no,
                 })
                 .then(async () => {
                   // Remove previos cookie
@@ -110,8 +147,8 @@ export default {
                     JSON.stringify({
                       student_id: this.userData.student_id,
                       name: this.name,
-                      name_of_trustee: this.userData.name_of_trustee,
-                      mobile_no: this.userData.mobile_no,
+                      name_of_trustee: this.name_of_trustee,
+                      mobile_no: this.mobile_no,
                       isAuth: true,
                       email: user.email,
                     }),
