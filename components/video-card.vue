@@ -1,5 +1,6 @@
 <template>
-  <v-col cols="12" lg="3" md="4" sm="12" class="ma-0 pa-0">
+  <div v-if="verification_load"></div>
+  <v-col v-else cols="12" lg="3" md="4" sm="12" class="ma-0 pa-0">
     <v-card>
       <div class="anti-main">
         <iframe
@@ -18,9 +19,11 @@
 
       <v-card-subtitle> {{ item.description }} </v-card-subtitle>
 
-      <p class="pl-3 pr-3">Rs. {{ item.price }}/=</p>
+      <p class="pl-4 pr-3">Rs. {{ item.price }}/=</p>
 
-      <p class="pl-4 pr-4 mt-4 pink">Count of Sales : {{ salesCount }}</p>
+      <p class="pl-4 pr-4 mt-4 amber--text">
+        Count of Bought : {{ boughtCount }}
+      </p>
 
       <v-container class="download-class">
         <a :href="item.note_link" download>
@@ -31,14 +34,7 @@
           ><v-icon>mdi-download</v-icon><span>Summary</span>
         </a>
       </v-container>
-      <v-card-actions>
-        <v-btn @click="deleteF()" icon color="red lighten-3">
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-        <v-btn @click="edit()" icon color="green darlen-3">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-      </v-card-actions>
+      <br />
     </v-card>
   </v-col>
 </template>
@@ -48,15 +44,37 @@ export default {
   props: ["item"],
   data() {
     return {
-      salesCount: 0,
+      boughtCount: 0,
+      verification_load: true,
+      verified: false,
     };
   },
-  methods: {
-    edit() {
-      this.$emit("editFunction");
+  computed: {
+    verificationList() {
+      return this.$store.getters["verification/bought_videos"];
     },
-    deleteF() {
-      this.$emit("deleteFunction");
+  },
+  mounted() {
+    this.verification();
+  },
+  // watch: {
+  //   verificationList(value) {
+  //     this.verification(value);
+  //   },
+  // },
+  methods: {
+    verification() {
+      try {
+        var vry = this.verificationList.some(
+          (element) => element == this.item.id
+        );
+        if (vry) this.verified = true;
+        else this.verified = false;
+        this.verification_load = false;
+      } catch (error) {
+        console.log(error);
+        this.verification_load = false;
+      }
     },
   },
 };

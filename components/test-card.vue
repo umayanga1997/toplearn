@@ -1,5 +1,6 @@
 <template >
-  <v-col cols="12" md="6" lg="3" sm="6" xl="2" class="ma-0 pa-0">
+  <div v-if="verification_load"></div>
+  <v-col v-else cols="12" md="6" lg="3" sm="6" xl="2" class="ma-0 pa-0">
     <v-card>
       <v-card-title> {{ item.topic }} </v-card-title>
 
@@ -7,16 +8,11 @@
 
       <p class="pl-4 pr-4">Rs. {{ item.price }}/=</p>
 
-      <p class="pl-4 pr-4 mt-4 pink">Count of Sales : {{ salesCount }}</p>
+      <p class="pl-4 pr-4 mt-4 amber--text">
+        Count of Bought : {{ boughtCount }}
+      </p>
 
       <v-card-actions>
-        <v-btn @click="deleteF()" icon color="red lighten-3">
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-        <v-btn @click="edit()" icon color="green darlen-3">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-
         <v-spacer></v-spacer>
 
         <v-btn icon @click="navigate" color="orange">
@@ -32,8 +28,18 @@ export default {
   props: ["item"],
   data() {
     return {
-      salesCount: 0,
+      boughtCount: 0,
+      verification_load: true,
+      verified: false,
     };
+  },
+  computed: {
+    verificationList() {
+      return this.$store.getters["verification/bought_tests"];
+    },
+  },
+  mounted() {
+    this.verification();
   },
   methods: {
     navigate() {
@@ -42,13 +48,18 @@ export default {
         query: { id: this.item.id, topic: this.item.topic },
       });
     },
-
-    edit() {
-      this.$emit("editFunction");
-    },
-
-    deleteF() {
-      this.$emit("deleteFunction");
+    verification() {
+      try {
+        var vry = this.verificationList.some(
+          (element) => element == this.item.id
+        );
+        if (vry) this.verified = true;
+        else this.verified = false;
+        this.verification_load = false;
+      } catch (error) {
+        console.log(error);
+        this.verification_load = false;
+      }
     },
   },
 };

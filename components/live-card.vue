@@ -1,20 +1,16 @@
 <template>
-  <v-col cols="12" md="6" lg="3" sm="6" xl="2" class="ma-0 pa-0">
+  <div v-if="verification_load"></div>
+  <v-col v-else cols="12" md="6" lg="3" sm="6" xl="2" class="ma-0 pa-0">
     <v-card>
       <v-card-title class="pb-0 pt-2"> {{ item.topic }} </v-card-title>
 
       <p class="pl-4 pr-4 mt-4">Rs. {{ item.price }}/=</p>
 
-      <p class="pl-4 pr-4 mt-4 pink">Count of Enrolment : {{ enrolCount }}</p>
+      <p class="pl-4 pr-4 mt-4 amber--text">
+        Count of Enrolment : {{ enrolCount }}
+      </p>
 
       <v-card-actions>
-        <v-btn @click="deleteF()" icon color="red lighten-3">
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-        <v-btn @click="edit()" icon color="green darlen-3">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-
         <v-spacer></v-spacer>
 
         <v-btn icon @click="show = !show" color="green">
@@ -60,14 +56,36 @@ export default {
     return {
       show: false,
       enrolCount: 0,
+      verification_load: true,
+      verified: false,
     };
   },
-  methods: {
-    edit() {
-      this.$emit("editFunction");
+  computed: {
+    verificationList() {
+      return this.$store.getters["verification/bought_live_classes"];
     },
-    deleteF() {
-      this.$emit("deleteFunction");
+  },
+  mounted() {
+    this.verification();
+  },
+  // watch: {
+  //   verificationList(value) {
+  //     this.verification(value);
+  //   },
+  // },
+  methods: {
+    verification() {
+      try {
+        var vry = this.verificationList.some(
+          (element) => element == this.item.id
+        );
+        if (vry) this.verified = true;
+        else this.verified = false;
+        this.verification_load = false;
+      } catch (error) {
+        console.log(error);
+        this.verification_load = false;
+      }
     },
   },
 };

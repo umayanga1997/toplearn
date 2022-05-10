@@ -2,19 +2,12 @@
   <div>
     <loading-compo v-if="loading" />
     <v-row v-else justify="center" class="ma-0 pa-0 card-section" dense>
-      <video-card
-        v-for="item in items"
-        :key="item.id"
-        :item="item"
-        @editFunction="dialogAction(item, 'e')"
-        @deleteFunction="dialogAction(item, 'd')"
-      />
+      <video-card v-for="item in items" :key="item.id" :item="item" />
     </v-row>
   </div>
 </template>
 
 <script>
-import { v4 as uuid } from "uuid";
 var videosRef;
 
 export default {

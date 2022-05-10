@@ -146,6 +146,7 @@ import Cookies from "js-cookie";
 
 var gradesRef;
 var subjectsRef;
+var studentsRef;
 
 export default {
   name: "home_screen",
@@ -179,13 +180,10 @@ export default {
   mounted() {
     gradesRef = this.$fire.firestore.collection("grades");
     subjectsRef = this.$fire.firestore.collection("subjects");
+    studentsRef = this.$fire.firestore.collection("students");
     this.initialize();
-    this.loadBoughtItems();
   },
   computed: {
-    // userName() {
-    //   return this.$store.getters["systemUser/userData"]?.name;
-    // },
     userData() {
       return this.$store.getters["systemUser/userData"];
     },
@@ -234,9 +232,9 @@ export default {
             querySnapshot.docs.forEach((doc) => {
               this.subjectsList.push(doc.data()["subject"]);
             });
-            this.loading = false;
           }
         );
+        this.loadBoughtItems();
       } catch (error) {
         console.log(error);
         this.loading = false;
@@ -244,7 +242,54 @@ export default {
     },
     loadBoughtItems() {
       try {
-      } catch (error) {}
+        var videoList = [];
+        var testsList = [];
+        var liveClassesList = [];
+        this.$fire.auth.onAuthStateChanged(async (user) => {
+          if (user) {
+            studentsRef
+              .doc(user?.uid)
+              .get()
+              .then(async (snapshot) => {
+                await snapshot.ref
+                  .collection("bought_videos")
+                  .get()
+                  .then((querySnapshot) => {
+                    querySnapshot.docs?.forEach((element) => {
+                      videoList.push(element.data()["id"]);
+                    });
+                  });
+                await snapshot.ref
+                  .collection("bought_tests")
+                  .get()
+                  .then((querySnapshot) => {
+                    querySnapshot.docs?.forEach((element) => {
+                      testsList.push(element.data()["id"]);
+                    });
+                  });
+                await snapshot.ref
+                  .collection("bought_live_classes")
+                  .get()
+                  .then((querySnapshot) => {
+                    querySnapshot.docs?.forEach((element) => {
+                      liveClassesList.push(element.data()["id"]);
+                    });
+                  });
+              })
+              .then(() => {
+                this.$store.commit("verification/setData", [
+                  videoList,
+                  testsList,
+                  liveClassesList,
+                ]);
+                this.loading = false;
+              });
+          }
+        });
+      } catch (error) {
+        console.log(error);
+        this.loading = false;
+      }
     },
     filterCommit() {
       this.$store.commit("filter/filter", [
