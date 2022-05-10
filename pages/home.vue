@@ -96,7 +96,7 @@
         </v-container>
       </v-tab-item>
     </v-tabs-items>
-    <v-dialog v-model="filterDialog" persistent max-width="500px">
+    <v-dialog v-model="filterDialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
           <span class="text-h5">Filter</span>
@@ -106,11 +106,20 @@
             <!-- <v-col>
               <v-select :items="items" label="Grade" dense outlined></v-select>
             </v-col> -->
-            <v-col>
+            <v-col cols="12" md="6" lg="6" sm="12">
               <v-select
-                :items="topicList"
-                label="Topics"
-                v-model="filterData"
+                :items="gradesList"
+                label="Grade"
+                v-model="filterGrade"
+                dense
+                outlined
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="6" lg="6" sm="12">
+              <v-select
+                :items="subjectsList"
+                label="Subject"
+                v-model="filterSubject"
                 dense
                 outlined
               ></v-select>
@@ -135,7 +144,8 @@ import tests from "@/pages/main/tests.vue";
 import onlineclass from "@/pages/main/live-class.vue";
 import Cookies from "js-cookie";
 
-var topicsRef;
+var gradesRef;
+var subjectsRef;
 
 export default {
   name: "home_screen",
@@ -147,9 +157,11 @@ export default {
   data() {
     return {
       tab: null,
-      filterData: null,
+      filterGrade: null,
+      filterSubject: null,
       items: ["Videos", "Tests", "Live Classes"],
-      topicList: [],
+      gradesList: [],
+      subjectsList: [],
       // drawerItems: [
       //   // { title: "Dashboard", icon: "mdi-view-dashboard", to: "/dashboard" },
       //   // { title: "Profile", icon: "mdi-account-circle", to: "/user/profile" },
@@ -165,8 +177,10 @@ export default {
     this.$store.commit("systemUser/findUserData");
   },
   mounted() {
-    topicsRef = this.$fire.firestore.collection("topics");
+    gradesRef = this.$fire.firestore.collection("grades");
+    subjectsRef = this.$fire.firestore.collection("subjects");
     this.initialize();
+    this.loadBoughtItems();
   },
   computed: {
     // userName() {
@@ -202,26 +216,42 @@ export default {
     initialize() {
       try {
         this.loading = true;
-        topicsRef
-          // .where("grade", "==", this.userData?.grade)
-          // .where("subject", "==", this.userData?.subject)
-          .onSnapshot({ includeMetadataChanges: true }, (querySnapshot) => {
-            this.topicList = [];
-            this.topicList.push("All");
-            // this.topicListData = [];
+        gradesRef.onSnapshot(
+          { includeMetadataChanges: true },
+          (querySnapshot) => {
+            this.gradesList = [];
+            this.gradesList.push("All");
             querySnapshot.docs.forEach((doc) => {
-              this.topicList.push(doc.data()["topic"]);
-              // this.topicListData.push(doc.data());
+              this.gradesList.push(doc.data()["grade_name"]);
             });
             this.loading = false;
-          });
+          }
+        );
+        subjectsRef.onSnapshot(
+          { includeMetadataChanges: true },
+          (querySnapshot) => {
+            this.subjectsList = [];
+            this.subjectsList.push("All");
+            querySnapshot.docs.forEach((doc) => {
+              this.subjectsList.push(doc.data()["subject"]);
+            });
+            this.loading = false;
+          }
+        );
       } catch (error) {
         console.log(error);
         this.loading = false;
       }
     },
+    loadBoughtItems() {
+      try {
+      } catch (error) {}
+    },
     filterCommit() {
-      this.$store.commit("filter/filter", this.filterData);
+      this.$store.commit("filter/filter", [
+        this.filterGrade,
+        this.filterSubject,
+      ]);
     },
   },
 };
