@@ -21,10 +21,10 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ["@/assets/css/style.css"],
+  css: ["@/assets/scss/style.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: "@/plugins/helper" }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -44,21 +44,21 @@ export default {
       "@nuxtjs/firebase",
       {
         config: {
-          apiKey: "<apiKey>",
-          authDomain: "<authDomain>",
-          projectId: "<projectId>",
-          storageBucket: "<storageBucket>",
-          messagingSenderId: "<messagingSenderId>",
-          appId: "<appId>",
-          measurementId: "<measurementId>",
+          apiKey: "AIzaSyA1KDvUVlctrq2NVefxU9WTmhBwA2I9-Q8",
+          authDomain: "top-learn-81d57.firebaseapp.com",
+          projectId: "top-learn-81d57",
+          storageBucket: "top-learn-81d57.appspot.com",
+          messagingSenderId: "671523244033",
+          appId: "1:671523244033:web:83f128e817299652a35800",
+          measurementId: "G-T7WD4KB992",
         },
         services: {
           auth: true,
           firestore: true,
           // functions: true,
-          // storage: true,
+          storage: true,
           // database: true,
-          // messaging: true,
+          messaging: true,
           // performance: true,
           analytics: true,
           // remoteConfig: true
@@ -66,6 +66,23 @@ export default {
       },
     ],
   ],
+  firestore: {
+    // ...
+    enablePersistence: {
+      /**
+       * Whether to synchronize the in-memory state of multiple tabs. Setting this
+       * to 'true' in all open tabs enables shared access to local persistence,
+       * shared execution of queries and latency-compensated local document updates
+       * across all connected instances.
+       *
+       * To enable this mode, `synchronizeTabs:true` needs to be set globally in all
+       * active tabs. If omitted or set to 'false', `enablePersistence()` will fail
+       * in all but the first tab.
+       */
+      synchronizeTabs: true,
+    },
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308

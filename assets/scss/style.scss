@@ -1,0 +1,24 @@
+.v-input {
+  max-height: 38px !important;
+}
+
+.text-area-max-height {
+  max-height: 110px !important;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.5s;
+}
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+}
+
+.page-loading {
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
