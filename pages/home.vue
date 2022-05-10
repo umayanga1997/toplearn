@@ -213,10 +213,10 @@ export default {
         this.$store.dispatch("alertState/message", [error, "error"]);
       }
     },
-    initialize() {
+    async initialize() {
       try {
         this.loading = true;
-        gradesRef.onSnapshot(
+        await gradesRef.onSnapshot(
           { includeMetadataChanges: true },
           (querySnapshot) => {
             this.gradesList = [];
@@ -224,10 +224,9 @@ export default {
             querySnapshot.docs.forEach((doc) => {
               this.gradesList.push(doc.data()["grade_name"]);
             });
-            this.loading = false;
           }
         );
-        subjectsRef.onSnapshot(
+        await subjectsRef.onSnapshot(
           { includeMetadataChanges: true },
           (querySnapshot) => {
             this.subjectsList = [];
