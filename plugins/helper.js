@@ -1,5 +1,6 @@
 import moment from "moment";
 import Vue from "vue";
+import jwt from "jsonwebtoken";
 
 Vue.mixin({
   computed: {
@@ -27,9 +28,17 @@ Vue.mixin({
         console.log(error);
       }
     },
-    buy(item) {
+    buy(item, buy_item) {
       try {
-        this.$router.push({ path: "payment", query: { vid: item.id } });
+        // Create jwt token
+        let token = jwt.sign(
+          JSON.stringify({
+            ...item,
+            buy_item: buy_item,
+          }),
+          "buy_item"
+        );
+        this.$router.push({ path: "payment", query: { dt: token } });
         // * Student bought_videos
         // b_id
         // id // v_id

@@ -12,7 +12,11 @@
 
       <v-card-actions class="pr-3 pb-3">
         <v-spacer></v-spacer>
-        <v-btn v-if="!verified" @click="buy(item)" color="green darlen-3">
+        <v-btn
+          v-if="!verified"
+          @click="buy(item, 'live_class')"
+          color="green darlen-3"
+        >
           Buy
         </v-btn>
         <v-btn icon @click="show = !show" color="green">
@@ -70,11 +74,11 @@ export default {
   mounted() {
     this.verification();
   },
-  // watch: {
-  //   verificationList(value) {
-  //     this.verification(value);
-  //   },
-  // },
+  watch: {
+    verificationList(value) {
+      this.verification();
+    },
+  },
   methods: {
     verification() {
       try {

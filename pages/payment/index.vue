@@ -1,38 +1,85 @@
 <template>
-  <v-col cols="12" md="6" lg="4" sm="12" id="card_container"></v-col>
+  <loading-compo v-if="loading" />
+  <div v-else>
+    <v-col cols="12" md="6" lg="4" sm="12" id="card_container"></v-col>
+    <v-btn @click="addata()"> Add Data</v-btn>
+  </div>
 </template>
 
 <script>
+import jwt from "jsonwebtoken";
+import { v4 as uuid } from "uuid";
+
+var studentsRef;
+var teachersRef;
+
 export default {
   name: "payment_screen",
   data() {
-    return {};
+    return {
+      loading: false,
+      q_data: null,
+    };
   },
   computed: {
     userData() {
       return this.$store.getters["systemUser/userData"];
     },
   },
-  created() {
+  beforeCreate() {
     this.$store.commit("systemUser/findUserData");
+    studentsRef = this.$fire.firestore.collection("students");
+    teachersRef = this.$fire.firestore.collection("teachers");
+  },
+  created() {
+    // Data getting from query token
+    this.init();
   },
   mounted() {
     this.initPaymnet();
   },
+
   methods: {
+    async init() {
+      try {
+        this.loading = true;
+        var token = this.$route.query.dt;
+        var data;
+        // decode data
+        jwt.verify(token, "buy_item", function (error, decoded) {
+          if (error == null) data = decoded;
+          else
+            this.$store.dispatch("alertState/message", [
+              "Payment data not found.",
+              "error",
+            ]);
+        });
+        this.q_data = data;
+        this.loading = false;
+      } catch (error) {
+        console.log(error);
+        this.loading = false;
+      }
+    },
     initPaymnet() {
       try {
-        console.log();
+        var id = uuid();
         window.DirectPayCardPayment.init({
           container: "card_container", //<div id="card_container"></div>
           merchantId: "IA02319", //your merchant_id
-          amount: "100.00",
-          refCode: "DP12345", //unique referance code form merchant
+          amount: this.q_data.price,
+          refCode: id, //unique referance code form merchant
           currency: "LKR",
           type: "ONE_TIME_PAYMENT",
-          customerEmail: "abc@mail.com",
-          customerMobile: this.userData.name_of_trustee,
-          description: "test products", //product or service description
+          customerEmail: this.userData.email,
+          customerMobile: this.userData.mobile_no,
+          description: `Buy a ${
+            this.q_data.buy_item == "video"
+              ? "video"
+              : this.q_data.buy_item == "test"
+              ? "test"
+              : "live class"
+          }`, //product or service description
           debug: true,
           responseCallback: this.responseCallback,
           errorCallback: this.errorCallback,
@@ -47,22 +94,6 @@ export default {
     //response callback.
     responseCallback(result) {
       console.log("successCallback-Client", result);
-      // * Student bought_videos
-      // b_id
-      // id // v_id
-      // price
-      // bought_date
-      // transaction_id
-      // exp_date
-      //
-      // * Teacher soled_videos
-      // b_id
-      // id // v_id
-      // price
-      // bought_date
-      // transaction_id
-      // exp_date
-      // student_id
       alert(JSON.stringify(result));
     },
 
@@ -70,6 +101,107 @@ export default {
     errorCallback(result) {
       console.log("successCallback-Client", result);
       alert(JSON.stringify(result));
+    },
+    addata() {
+      try {
+        const user = this.$fire.auth.currentUser;
+        if (user != null) {
+          this.loading = true;
+          // Add data to teacher
+          teachersRef
+            .where("teacher_id", "==", this.q_data.teacher_id)
+            .get()
+            .then((querySnapshot) => {
+              return querySnapshot.docs[0]?.data().auth_id;
+            })
+            .then((t_a_id) => {
+              if (t_a_id == null) {
+                this.$store.dispatch("alertState/message", [
+                  "Teacher account not found",
+                  "error",
+                ]);
+                this.loading = false;
+              } else {
+                // Add data to student
+                var id = uuid();
+                studentsRef
+                  .doc(user.uid)
+                  .collection(
+                    this.q_data.buy_item == "video"
+                      ? "bought_videos"
+                      : this.q_data.buy_item == "test"
+                      ? "bought_tests"
+                      : "bought_live_classes"
+                  )
+                  .doc(id)
+                  .set({
+                    b_id: id,
+                    id: this.q_data.id,
+                    price: this.q_data.price,
+                    bought_date: new Date(),
+                    transaction_id: "",
+                    exp_date: "",
+                  })
+                  .then(() => {
+                    teachersRef
+                      .doc(t_a_id)
+                      .collection(
+                        this.q_data.buy_item == "video"
+                          ? "sold_videos"
+                          : this.q_data.buy_item == "test"
+                          ? "sold_tests"
+                          : "sold_live_classes"
+                      )
+                      .doc(id)
+                      .set({
+                        b_id: id,
+                        id: this.q_data.id,
+                        price: this.q_data.price,
+                        sold_date: new Date(),
+                        transaction_id: "",
+                        exp_date: "",
+                        student_id: this.userData.student_id,
+                        student_name: this.userData.name,
+                      })
+                      .then(() => {
+                        this.$store.dispatch("alertState/message", [
+                          "Process completed successfully.",
+                          "success",
+                        ]);
+                        this.loading = false;
+                      })
+                      .catch((error) => {
+                        this.loading = false;
+                        this.$store.dispatch("alertState/message", [
+                          error,
+                          "error",
+                        ]);
+                      });
+                  })
+                  .catch((error) => {
+                    this.loading = false;
+                    this.$store.dispatch("alertState/message", [
+                      error,
+                      "error",
+                    ]);
+                  });
+              }
+            })
+            .catch((error) => {
+              this.loading = false;
+              this.$store.dispatch("alertState/message", [error, "error"]);
+            });
+        } else {
+          this.loading = false;
+          this.$store.dispatch("alertState/message", [
+            "User not found",
+            "error",
+          ]);
+        }
+      } catch (error) {
+        this.loading = false;
+        console.log(error);
+      }
     },
   },
 };

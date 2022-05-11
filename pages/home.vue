@@ -177,7 +177,7 @@ export default {
   beforeCreate() {
     this.$store.commit("systemUser/findUserData");
   },
-  mounted() {
+  created() {
     gradesRef = this.$fire.firestore.collection("grades");
     subjectsRef = this.$fire.firestore.collection("subjects");
     studentsRef = this.$fire.firestore.collection("students");

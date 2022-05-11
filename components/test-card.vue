@@ -18,7 +18,9 @@
         <v-btn v-if="verified" icon @click="navigate" color="orange">
           <v-icon>mdi-note-edit</v-icon>
         </v-btn>
-        <v-btn v-else @click="buy(item)" color="green darlen-3"> Buy </v-btn>
+        <v-btn v-else @click="buy(item, 'test')" color="green darlen-3">
+          Buy
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-col>
@@ -41,6 +43,11 @@ export default {
   },
   mounted() {
     this.verification();
+  },
+  watch: {
+    verificationList(value) {
+      this.verification();
+    },
   },
   methods: {
     navigate() {
