@@ -160,49 +160,58 @@ export default {
                   .doc(uid)
                   .get()
                   .then(async (snapshots) => {
-                    if (snapshots.data()["active"] == true) {
-                      // Create jwt token
-                      let token = jwt.sign(
-                        JSON.stringify({
-                          student_id: snapshots.data()["student_id"],
-                          name: snapshots.data()["name"],
-                          name_of_trustee: snapshots.data()["name_of_trustee"],
-                          mobile_no: snapshots.data()["mobile_no"],
-                          isAuth: true,
-                          email: snapshots.data()["email"],
-                          // medium: snapshots.data()["medium"],
-                        }),
-                        "systemuser_st"
-                      );
-                      // Token set to cookie
-                      // var in30Minutes = 1 / 48;
-                      Cookies.set("access_token_st", token, {
-                        expires: 1,
-                      });
-
+                    if (snapshots.data() == null) {
                       this.$store.dispatch("alertState/message", [
-                        "Sign in successfully.",
-                        "success",
+                        "User account not found. Please contact support center.",
+                        "error",
                       ]);
-                      // Reload
-                      this.$router.go();
+                      await this.$fire.auth.signOut();
                     } else {
-                      await this.$fire.auth
-                        .signOut()
-                        .then(() => {
-                          Cookies.remove("access_token_st");
-                          this.$store.commit("alertMessage/message", [
-                            "The system user data not exist. Please try again.",
-                            "error",
-                          ]);
-                        })
-                        .catch((error) => {
-                          this.btnLoading = false;
-                          this.$store.commit("AlertMessage/message", [
-                            error,
-                            "error",
-                          ]);
+                      if (snapshots.data()["active"] == true) {
+                        // Create jwt token
+                        let token = jwt.sign(
+                          JSON.stringify({
+                            student_id: snapshots.data()["student_id"],
+                            name: snapshots.data()["name"],
+                            name_of_trustee:
+                              snapshots.data()["name_of_trustee"],
+                            mobile_no: snapshots.data()["mobile_no"],
+                            isAuth: true,
+                            email: snapshots.data()["email"],
+                            // medium: snapshots.data()["medium"],
+                          }),
+                          "systemuser_st"
+                        );
+                        // Token set to cookie
+                        // var in30Minutes = 1 / 48;
+                        Cookies.set("access_token_st", token, {
+                          expires: 1,
                         });
+
+                        this.$store.dispatch("alertState/message", [
+                          "Sign in successfully.",
+                          "success",
+                        ]);
+                        // Reload
+                        this.$router.go();
+                      } else {
+                        await this.$fire.auth
+                          .signOut()
+                          .then(() => {
+                            Cookies.remove("access_token_st");
+                            this.$store.dispatch("alertState/message", [
+                              "The system user data not exist. Please try again.",
+                              "error",
+                            ]);
+                          })
+                          .catch((error) => {
+                            this.btnLoading = false;
+                            this.$store.dispatch("alertState/message", [
+                              error,
+                              "error",
+                            ]);
+                          });
+                      }
                     }
                   })
                   .then(() => {
