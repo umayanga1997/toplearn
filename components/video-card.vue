@@ -21,7 +21,7 @@
       </v-col>
       <v-card-actions class="pr-3 pb-3">
         <v-spacer></v-spacer>
-        <v-btn @click="buy" color="green darlen-3"> Buy </v-btn>
+        <v-btn @click="buy(item)" color="green darlen-3"> Buy </v-btn>
       </v-card-actions>
     </v-card>
     <v-card v-else>
@@ -97,28 +97,6 @@ export default {
       } catch (error) {
         console.log(error);
         this.verification_load = false;
-      }
-    },
-    buy() {
-      try {
-        // * Student bought_videos
-        // b_id
-        // id // v_id
-        // price
-        // bought_date
-        // transaction_id
-        // exp_date
-        //
-        // * Teacher soled_videos
-        // b_id
-        // id // v_id
-        // price
-        // bought_date
-        // transaction_id
-        // exp_date
-        // student_id
-      } catch (error) {
-        console.log(error);
       }
     },
   },

@@ -62,6 +62,14 @@
           </v-row>
         </v-form>
       </v-card-text>
+      <v-card-actions class="center-action">
+        <v-btn
+          class="low-case-btn red--text text--lighten-3"
+          text
+          @click="deleteAccount"
+          >Delete Account</v-btn
+        >
+      </v-card-actions>
     </v-card>
   </v-col>
 </template>
@@ -214,6 +222,13 @@ export default {
         this.btnDisable = true;
       }
     },
+    deleteAccount() {
+      try {
+        console.log("Deleted");
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 };
 </script>
@@ -230,5 +245,11 @@ export default {
 }
 .f-size {
   font-size: 20px;
+}
+.low-case-btn {
+  text-transform: none;
+}
+.center-action {
+  justify-content: center;
 }
 </style>

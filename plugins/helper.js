@@ -27,5 +27,28 @@ Vue.mixin({
         console.log(error);
       }
     },
+    buy(item) {
+      try {
+        this.$router.push({ path: "payment", query: { vid: item.id } });
+        // * Student bought_videos
+        // b_id
+        // id // v_id
+        // price
+        // bought_date
+        // transaction_id
+        // exp_date
+        //
+        // * Teacher soled_videos
+        // b_id
+        // id // v_id
+        // price
+        // bought_date
+        // transaction_id
+        // exp_date
+        // student_id
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 });

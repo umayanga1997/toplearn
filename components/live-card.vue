@@ -12,7 +12,9 @@
 
       <v-card-actions class="pr-3 pb-3">
         <v-spacer></v-spacer>
-        <v-btn v-if="!verified" color="green darlen-3"> Buy </v-btn>
+        <v-btn v-if="!verified" @click="buy(item)" color="green darlen-3">
+          Buy
+        </v-btn>
         <v-btn icon @click="show = !show" color="green">
           <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
         </v-btn>
