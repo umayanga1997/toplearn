@@ -169,6 +169,9 @@ export default {
                           "success",
                         ]);
                         this.loading = false;
+                        this.$router.replace("/home").then(() => {
+                          this.$router.go();
+                        });
                       })
                       .catch((error) => {
                         this.loading = false;
