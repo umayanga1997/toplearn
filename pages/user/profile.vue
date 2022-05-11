@@ -66,6 +66,8 @@
         <v-btn
           class="low-case-btn red--text text--lighten-3"
           text
+          :loading="btnLoadingDelete"
+          :disabled="btnDisable"
           @click="deleteAccount"
           >Delete Account</v-btn
         >
@@ -96,6 +98,7 @@ export default {
       btnDisable: false,
       btnLoadingReset: false,
       btnLoadingUpdate: false,
+      btnLoadingDelete: false,
     };
   },
 
@@ -188,8 +191,8 @@ export default {
         }
       } catch (error) {
         console.log(error);
-        this.btnLoadingUpdate = true;
-        this.btnDisable = true;
+        this.btnLoadingReset = false;
+        this.btnDisable = false;
       }
     },
     resetPassword() {
@@ -218,14 +221,68 @@ export default {
         }
       } catch (error) {
         console.log(error);
-        this.btnLoadingReset = true;
-        this.btnDisable = true;
+        this.btnLoadingReset = false;
+        this.btnDisable = false;
       }
     },
     deleteAccount() {
       try {
-        console.log("Deleted");
+        this.btnLoadingDelete = true;
+        this.btnDisable = true;
+        const user = this.$fire.auth.currentUser;
+        studentsRef
+          .doc(user.uid)
+          .delete()
+          .then(() => {
+            Cookies.remove("access_token_st");
+            this.$store.dispatch("alertState/message", [
+              "Account deleted successfully",
+              "success",
+            ]);
+            this.btnLoadingDelete = false;
+            this.btnDisable = false;
+            this.$router.go();
+            // // TODO(you): prompt the user to re-provide their sign-in credentials
+            // const credential = this.$fire.auth.promptForCredentials();
+
+            // user
+            //   .reauthenticateWithCredential(credential)
+            //   .then(() => {
+            //     user
+            //       .delete()
+            //       .then(() => {
+            //         Cookies.remove("access_token_st");
+            //         this.$store.dispatch("alertState/message", [
+            //           "Account deleted successfully",
+            //           "success",
+            //         ]);
+            //         this.btnLoadingDelete = false;
+            //         this.btnDisable = false;
+            //         this.$router.go();
+            //       })
+            //       .catch((error) => {
+            //         this.$store.dispatch("alertState/message", [
+            //           error,
+            //           "error",
+            //         ]);
+            //         this.btnLoadingDelete = false;
+            //         this.btnDisable = false;
+            //       });
+            // })
+            // .catch((error) => {
+            //   this.$store.dispatch("alertState/message", [error, "error"]);
+            //   this.btnLoadingDelete = false;
+            //   this.btnDisable = false;
+            // });
+          })
+          .catch((error) => {
+            this.$store.dispatch("alertState/message", [error, "error"]);
+            this.btnLoadingDelete = false;
+            this.btnDisable = false;
+          });
       } catch (error) {
+        this.btnLoadingDelete = false;
+        this.btnDisable = false;
         console.log(error);
       }
     },
