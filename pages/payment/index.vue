@@ -169,7 +169,7 @@ export default {
                           "success",
                         ]);
                         this.loading = false;
-                        this.$router.replace("/home").then(() => {
+                        this.$router.replace("/").then(() => {
                           this.$router.go();
                         });
                       })
