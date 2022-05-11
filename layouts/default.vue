@@ -6,7 +6,7 @@
         <Nuxt keep-alive />
       </v-container>
     </v-main>
-    <v-footer absolute app>
+    <v-footer fixed app>
       <span
         >&copy; {{ new Date().getFullYear() + " Powered by Apec Lanka" }}</span
       >
