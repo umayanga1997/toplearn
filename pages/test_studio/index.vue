@@ -202,6 +202,10 @@ export default {
             querySnapshot.docs.forEach((doc) => {
               this.items.push(doc.data());
             });
+
+            // Set to glocle list
+            this.items = this.items.sort(() => Math.random() - 0.5);
+
             this.loading = false;
           });
       } catch (error) {
