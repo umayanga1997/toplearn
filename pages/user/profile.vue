@@ -40,7 +40,7 @@
               @click="update()"
               :loading="btnLoadingUpdate"
               :disabled="btnDisable"
-              class="green darken-3 ma-0 white--text"
+              class="green darken-2 ma-0 white--text"
               dark
               >Update</v-btn
             >

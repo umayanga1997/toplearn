@@ -9,15 +9,20 @@
           this.$route.query.topic
         }}</span></v-toolbar-title
       >
+      <v-spacer></v-spacer
+      ><v-btn
+        @click="!submitionTrigger ? submit() : reload()"
+        :color="!submitionTrigger ? 'green darken-2' : 'blue darken-2'"
+        >{{ !submitionTrigger ? "Submit" : "Try again" }}</v-btn
+      >
     </v-app-bar>
 
     <loading-compo v-if="loading" />
     <v-container v-else class="ma-0 pa-0 flex-class" fluid>
       <test-q-card
-        v-for="item in items"
+        v-for="(item, i) in items"
         :key="item.id"
-        :item="item"
-        @answer="selectedAnswer(item)"
+        :item="{ ...item, index_no: i + 1 }"
       />
     </v-container>
 
@@ -146,7 +151,7 @@
 </template>
 
 <script>
-import { v4 as uuid } from "uuid";
+// import { v4 as uuid } from "uuid";
 
 var testsRef;
 var testID;
@@ -167,6 +172,9 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New" : "Edit";
+    },
+    submitionTrigger() {
+      return this.$store.getters["submitTrigger/triggerValue"];
     },
   },
 
@@ -204,15 +212,18 @@ export default {
 
     async submit() {
       try {
+        this.$store.commit("submitTrigger/trigger", true);
       } catch (error) {
         console.log(error);
         this.btnLoading = false;
       }
     },
-    async selectedAnswer(item) {
+    async reload() {
       try {
+        this.$store.commit("submitTrigger/trigger", false);
       } catch (error) {
         console.log(error);
+        this.btnLoading = false;
       }
     },
 

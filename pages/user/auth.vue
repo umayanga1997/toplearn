@@ -81,7 +81,7 @@
           @click="tab == 0 ? signIn() : signUp()"
           :loading="btnLoading"
           :disabled="btnLoading"
-          class="green darken-3 ma-0 pa-4 mr-5 white--text"
+          class="green darken-2 ma-0 pa-4 mr-5 white--text"
           dark
           >{{ tab == 0 ? "Sign In" : "Sign Up" }}</v-btn
         >
