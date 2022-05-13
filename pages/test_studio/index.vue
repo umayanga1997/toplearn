@@ -12,17 +12,16 @@
     </v-app-bar>
 
     <loading-compo v-if="loading" />
-    <v-row v-else justify="center" class="ma-0 pa-0" dense>
+    <v-container v-else class="ma-0 pa-0 flex-class" fluid>
       <test-q-card
         v-for="item in items"
         :key="item.id"
         :item="item"
-        @editFunction="dialogAction(item, 'e')"
-        @deleteFunction="dialogAction(item, 'd')"
+        @answer="selectedAnswer(item)"
       />
-    </v-row>
+    </v-container>
 
-    <v-dialog persistent v-model="dialog" max-width="600px">
+    <!-- <v-dialog persistent v-model="dialog" max-width="600px">
       <v-card v-if="dialogType != 'd'">
         <v-card-title>
           <span class="text-h5">{{ formTitle }}</span>
@@ -128,8 +127,8 @@
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
-    </v-dialog>
-    <v-fab-transition>
+    </v-dialog> -->
+    <!-- <v-fab-transition>
       <v-btn
         fab
         large
@@ -142,7 +141,7 @@
       >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
-    </v-fab-transition>
+    </v-fab-transition> -->
   </div>
 </template>
 
@@ -202,161 +201,21 @@ export default {
         this.loading = false;
       }
     },
-    dialogAction(item, type) {
-      this.editedIndex = this.items.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogType = type;
-      this.dialog = true;
-    },
-    async saveData() {
-      try {
-        if (
-          this.editedItem.question_type == null ||
-          this.editedItem.question_type == ""
-        ) {
-          this.$store.dispatch("alertState/message", [
-            "Please select Type of Question",
-            "error",
-          ]);
-        } else if (
-          this.editedItem.question == null ||
-          this.editedItem.question == ""
-        ) {
-          this.$store.dispatch("alertState/message", [
-            "Please enter Question",
-            "error",
-          ]);
-        } else if (
-          (this.editedItem.question_type != "Upload Answer" &&
-            this.editedItem.answers == null) ||
-          this.editedItem.answers == ""
-        ) {
-          this.$store.dispatch("alertState/message", [
-            "Please enter Answer(s)",
-            "error",
-          ]);
-        } else if (
-          (this.editedItem.question_type != "Upload Answer" &&
-            this.editedItem.currect_answers == null) ||
-          this.editedItem.currect_answers == ""
-        ) {
-          this.$store.dispatch("alertState/message", [
-            "Please enter Currect Answer(s)",
-            "error",
-          ]);
-        } else {
-          this.btnLoading = true;
-          var id = uuid();
 
-          testsRef
-            .doc(testID)
-            .collection("questions")
-            .doc(id)
-            .set({
-              id: id,
-              test_id: testID,
-              question_type: this.editedItem?.question_type,
-              question: this.editedItem?.question,
-              answers: this.editedItem.answers ?? null,
-              currect_answers: this.editedItem.currect_answers ?? null,
-              create_date: new Date(),
-            })
-            .then(() => {
-              this.$store.dispatch("alertState/message", [
-                "Data added successfully.",
-                "success",
-              ]);
-              this.clear();
-              this.btnLoading = false;
-            });
-        }
+    async submit() {
+      try {
       } catch (error) {
         console.log(error);
         this.btnLoading = false;
       }
     },
-    async updateData() {
+    async selectedAnswer(item) {
       try {
-        if (
-          this.editedItem.question == null ||
-          this.editedItem.question == ""
-        ) {
-          this.$store.dispatch("alertState/message", [
-            "Please enter Question",
-            "error",
-          ]);
-        } else if (
-          (this.editedItem.question_type != "Upload Answer" &&
-            this.editedItem.answers == null) ||
-          this.editedItem.answers == ""
-        ) {
-          this.$store.dispatch("alertState/message", [
-            "Please enter Answer(s)",
-            "error",
-          ]);
-        } else if (
-          (this.editedItem.question_type != "Upload Answer" &&
-            this.editedItem.currect_answers == null) ||
-          this.editedItem.currect_answers == ""
-        ) {
-          this.$store.dispatch("alertState/message", [
-            "Please enter Currect Answer(s)",
-            "error",
-          ]);
-        } else {
-          this.btnLoading = true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
-          testsRef
-            .doc(testID)
-            .collection("questions")
-            .doc(this.editedItem.id)
-            .update({
-              // test_id: testID,
-              question_type: this.editedItem?.question_type,
-              question: this.editedItem?.question,
-              answers: this.editedItem.answers ?? null,
-              currect_answers: this.editedItem.currect_answers ?? null,
-              last_update_date: new Date(),
-            })
-            .then(() => {
-              this.$store.dispatch("alertState/message", [
-                "Data updated successfully.",
-                "success",
-              ]);
-              this.clear();
-              this.btnLoading = false;
-            });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    deleteData() {
-      try {
-        this.btnLoading = true;
-        testsRef
-          .doc(testID)
-          .collection("questions")
-          .doc(this.editedItem.id)
-          .delete()
-          .then(() => {
-            this.$store.dispatch("alertState/message", [
-              "Data deleted successfully.",
-              "success",
-            ]);
-            this.btnLoading = false;
-            this.close();
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    close() {
-      this.dialog = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-      });
-    },
     clear() {
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
@@ -369,7 +228,9 @@ export default {
 </script>
 
 <style lang="scss">
-// .topic-color {
-//   color: rgb(154, 255, 221) !important;
-// }
+.flex-class {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 </style>

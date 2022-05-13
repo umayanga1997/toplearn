@@ -21,7 +21,7 @@
       </v-col>
       <v-card-actions class="pr-3 pb-3">
         <v-spacer></v-spacer>
-        <v-btn @click="buy(item, 'video')" color="green darlen-3"> Buy </v-btn>
+        <v-btn @click="buy(item, 'video')" color="green darken-3"> Buy </v-btn>
       </v-card-actions>
     </v-card>
     <v-card v-else>

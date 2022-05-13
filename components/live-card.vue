@@ -15,7 +15,7 @@
         <v-btn
           v-if="!verified"
           @click="buy(item, 'live_class')"
-          color="green darlen-3"
+          color="green darken-3"
         >
           Buy
         </v-btn>

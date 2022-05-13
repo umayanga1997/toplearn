@@ -1,41 +1,53 @@
 <template >
-  <v-col cols="12" md="6" lg="3" sm="6" xl="2" class="ma-0 pa-2">
+  <v-col cols="12" md="6" lg="5" sm="6" xl="5" class="ma-0 pa-2">
     <v-card>
-      <v-card-title> Q) {{ item.question }} </v-card-title>
+      <v-card-title class="blue--text text--lighten-2">
+        Q) {{ item.question }}
+      </v-card-title>
 
-      <v-card-subtitle>
+      <!-- <v-card-subtitle>
         {{
           item.question_type == "Upload Answer"
             ? "Upload answer required"
-            : item.answers
+            : stringToList(item.answers)
         }}
-      </v-card-subtitle>
+      </v-card-subtitle> -->
 
-      <v-card-subtitle
-        v-if="item.question_type != 'Upload Answer'"
-        class="pb-0 pt-1"
-        >Currect Answer</v-card-subtitle
+      <v-radio-group
+        v-if="item.question_type == 'Single Answer'"
+        v-model="selected_answer_s"
+        column
+        class="height-of-radio pa-4 ma-0 pb-0"
       >
-      <p v-if="item.question_type != 'Upload Answer'" class="pl-4 pr-4">
-        {{ item.currect_answers }}
-      </p>
-
-      <v-card-subtitle class="pb-0 pt-1">Question Type</v-card-subtitle>
-      <p class="pl-4 pr-4 pb-2">{{ item.question_type }}</p>
+        <v-radio
+          v-for="item in stringToList(item.answers)"
+          :key="item"
+          :label="item"
+          :value="item"
+          class="mt-1"
+        ></v-radio>
+      </v-radio-group>
+      <div
+        v-else-if="item.question_type == 'Multiple Answer'"
+        class="height-of-radio pa-4 ma-0 pb-0"
+      >
+        <v-checkbox
+          v-model="selected_answer_s"
+          v-for="item in stringToList(item.answers)"
+          :key="item"
+          :label="item"
+          :value="item"
+          class="ma-0"
+        ></v-checkbox>
+      </div>
+      <div class="height-of-radio pa-4 ma-0 pb-0" v-else>Upload</div>
 
       <v-card-actions>
-        <v-btn @click="deleteF()" icon color="red lighten-3">
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-        <v-btn @click="edit()" icon color="green darlen-3">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-
         <v-spacer></v-spacer>
 
-        <!-- <v-btn icon @click="navigate" color="orange">
-          <v-icon>mdi-checkbook</v-icon>
-        </v-btn> -->
+        <v-btn icon @click="clear" color="red lighten-3">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-col>
@@ -44,19 +56,35 @@
 export default {
   name: "exam-card-compo",
   props: ["item"],
-  // data() {
-  //   return {
-  //     show: false,
-  //   };
-  // },
+  data() {
+    return {
+      selected_answer_s: [],
+    };
+  },
   methods: {
-    edit() {
-      this.$emit("editFunction");
+    answer() {
+      this.$emit("answer");
     },
-
-    deleteF() {
-      this.$emit("deleteFunction");
+    stringToList(value) {
+      try {
+        var list = value.split(",");
+        return list ?? [];
+      } catch (error) {
+        return [];
+      }
+    },
+    clear() {
+      this.selected_answer_s = [];
     },
   },
 };
 </script>
+
+<style lang="scss">
+.height-of-radio {
+  max-height: none !important;
+}
+.v-radio > .v-label {
+  color: white !important;
+}
+</style>
