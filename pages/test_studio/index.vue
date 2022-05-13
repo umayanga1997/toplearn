@@ -203,7 +203,7 @@ export default {
               this.items.push(doc.data());
             });
 
-            // Set to glocle list
+            // Genarate random list and Set
             this.items = this.items.sort(() => Math.random() - 0.5);
 
             this.loading = false;
