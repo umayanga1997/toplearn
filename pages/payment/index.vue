@@ -137,6 +137,12 @@ export default {
                   .set({
                     b_id: id,
                     id: this.q_data.id,
+                    type:
+                      this.q_data.buy_item == "video"
+                        ? "Video"
+                        : this.q_data.buy_item == "test"
+                        ? "Test"
+                        : "Live Class",
                     price: this.q_data.price,
                     bought_date: new Date(),
                     transaction_id: "",
@@ -156,9 +162,16 @@ export default {
                       .set({
                         b_id: id,
                         id: this.q_data.id,
+                        type:
+                          this.q_data.buy_item == "video"
+                            ? "Video"
+                            : this.q_data.buy_item == "test"
+                            ? "Test"
+                            : "Live Class",
                         price: this.q_data.price,
                         sold_date: new Date(),
                         transaction_id: "",
+
                         exp_date: "",
                         student_id: this.userData.student_id,
                         student_name: this.userData.name,
