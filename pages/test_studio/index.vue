@@ -11,7 +11,7 @@
       >
       <v-spacer></v-spacer
       ><v-btn
-        @click="!submitionTrigger ? submit() : reload()"
+        @click="!submitionTrigger ? submit() : reTry()"
         :color="!submitionTrigger ? 'green darken-2' : 'blue darken-2'"
         >{{ !submitionTrigger ? "Submit" : "Try again" }}</v-btn
       >
@@ -222,7 +222,7 @@ export default {
         this.btnLoading = false;
       }
     },
-    async reload() {
+    async reTry() {
       try {
         this.$store.commit("submitTrigger/trigger", false);
       } catch (error) {
