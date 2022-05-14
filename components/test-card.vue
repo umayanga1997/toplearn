@@ -8,9 +8,9 @@
 
       <p class="pl-4 pr-4">Rs. {{ item.price }}/=</p>
 
-      <p class="pl-4 pr-4 mt-4 amber--text">
+      <!-- <p class="pl-4 pr-4 mt-4 amber--text">
         Count of Bought : {{ boughtCount }}
-      </p>
+      </p> -->
 
       <v-card-actions class="pr-3 pb-3">
         <v-spacer></v-spacer>
