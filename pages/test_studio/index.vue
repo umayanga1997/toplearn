@@ -10,7 +10,7 @@
         }}</span></v-toolbar-title
       >
       <v-spacer></v-spacer>
-      {{ timer_count }}
+      <p class="ma-0 yellow--text">{{ timer_count }}</p>
     </v-app-bar>
 
     <loading-compo v-if="loading" />
@@ -193,7 +193,7 @@ export default {
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         // Output the result in an element with id="demo"
-        this.timer_count = hours + " h " + minutes + " m " + seconds + " s";
+        this.timer_count = hours + " h - " + minutes + " m - " + seconds + " s";
         if (distance < 0) {
           clearInterval(this.setTimeInterval);
           // Auto submition
