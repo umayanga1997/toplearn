@@ -60,7 +60,7 @@ export default {
         JSON.stringify({
           id: this.item.id,
           topic: this.item.topic,
-          duration: this.item.duration_hr,
+          duration_hr: this.item.duration_hr,
         }),
         "navigate_q"
       );

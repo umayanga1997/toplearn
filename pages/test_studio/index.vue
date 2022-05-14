@@ -10,6 +10,7 @@
         }}</span></v-toolbar-title
       >
       <v-spacer></v-spacer>
+      {{ timer_count }}
     </v-app-bar>
 
     <loading-compo v-if="loading" />
@@ -52,6 +53,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import jwt from "jsonwebtoken";
 
 var testsRef;
@@ -64,6 +66,8 @@ export default {
     loading: false,
     markDialog: false,
     marks: 0,
+    setTimeInterval: null,
+    timer_count: 0,
     btnLoading: false,
     testData: "",
     search: "",
@@ -117,6 +121,9 @@ export default {
     testsRef = this.$fire.firestore.collection("tests");
     this.initialize();
   },
+  mounted() {
+    this.timerCounter();
+  },
 
   methods: {
     initialize() {
@@ -145,6 +152,8 @@ export default {
     async submit() {
       try {
         this.$store.commit("submitTrigger/trigger", true);
+        clearInterval(this.setTimeInterval);
+        this.timer_count = "Submited!";
       } catch (error) {
         console.log(error);
         this.btnLoading = false;
@@ -152,6 +161,7 @@ export default {
     },
     async reTry() {
       try {
+        this.timerCounter();
         this.$store.commit("marks/clearMarks");
         this.$store.commit("submitTrigger/trigger", false);
       } catch (error) {
@@ -160,12 +170,34 @@ export default {
       }
     },
 
-    clear() {
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-      });
-      this.noteFile = null;
-      this.summaryFile = null;
+    timerCounter() {
+      var countDownDate = new Date().setTime(
+        new Date().getTime() + this.testData.duration_hr * 60 * 60 * 1000
+      );
+
+      this.setTimeInterval = setInterval(() => {
+        // Get todays date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now an the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the result in an element with id="demo"
+        this.timer_count = hours + " h " + minutes + " m " + seconds + " s";
+        if (distance < 0) {
+          clearInterval(this.setTimeInterval);
+          // Auto submition
+          this.$store.commit("submitTrigger/trigger", true);
+          this.timer_count = "Time is Over! & Auto submitted!";
+        }
+      }, 1000);
     },
   },
 };
