@@ -2,7 +2,8 @@
   <div>
     <loading-compo v-if="loading" />
     <v-row v-else justify="center" class="ma-0 pa-0 card-section" dense>
-      <live-card v-for="item in items" :key="item.id" :item="item" />
+      <data-not-found v-if="items.length == 0"></data-not-found>
+      <live-card v-else v-for="item in items" :key="item.id" :item="item" />
     </v-row>
   </div>
 </template>
