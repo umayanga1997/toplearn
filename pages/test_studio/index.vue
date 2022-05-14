@@ -9,12 +9,7 @@
           this.testData.topic
         }}</span></v-toolbar-title
       >
-      <v-spacer></v-spacer
-      ><v-btn
-        @click="!submitionTrigger ? submit() : reTry()"
-        :color="!submitionTrigger ? 'green darken-2' : 'blue darken-2'"
-        >{{ !submitionTrigger ? "Submit" : "Try again" }}</v-btn
-      >
+      <v-spacer></v-spacer>
     </v-app-bar>
 
     <loading-compo v-if="loading" />
@@ -38,20 +33,21 @@
       </div>
     </vs-dialog>
 
-    <!-- <v-fab-transition>
+    <v-fab-transition>
       <v-btn
         fab
         large
         dark
-        bottom
-        @click="dialogAction(null, 'a')"
+        top
         fixed
-        left
-        class="mb-10 green darken-2"
+        right
+        class="mt-15 mr-5"
+        @click="!submitionTrigger ? submit() : reTry()"
+        :color="!submitionTrigger ? 'green darken-2' : 'blue darken-2'"
       >
-        <v-icon>mdi-plus</v-icon>
+        <v-icon>{{ !submitionTrigger ? "mdi-check" : "mdi-refresh" }}</v-icon>
       </v-btn>
-    </v-fab-transition> -->
+    </v-fab-transition>
   </div>
 </template>
 
