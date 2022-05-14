@@ -5,6 +5,9 @@
       <v-card-title> {{ item.topic }} </v-card-title>
 
       <v-card-subtitle> {{ item.description }} </v-card-subtitle>
+      <v-card-subtitle class="pt-0"
+        >Duration : {{ item.duration_hr }} Hour</v-card-subtitle
+      >
 
       <p class="pl-4 pr-4">Rs. {{ item.price }}/=</p>
 
@@ -26,6 +29,8 @@
   </v-col>
 </template>
 <script>
+import jwt from "jsonwebtoken";
+
 export default {
   name: "test-card-compo",
   props: ["item"],
@@ -51,9 +56,17 @@ export default {
   },
   methods: {
     navigate() {
+      let token = jwt.sign(
+        JSON.stringify({
+          id: this.item.id,
+          topic: this.item.topic,
+          duration: this.item.duration_hr,
+        }),
+        "navigate_q"
+      );
       this.$router.push({
         path: "test_studio",
-        query: { id: this.item.id, topic: this.item.topic },
+        query: { t: token },
       });
     },
     verification() {

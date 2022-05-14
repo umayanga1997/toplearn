@@ -6,7 +6,7 @@
       <v-toolbar-title class="orange--text"
         >Test Studio -
         <span class="white--text">{{
-          this.$route.query.topic
+          this.testData.topic
         }}</span></v-toolbar-title
       >
       <v-spacer></v-spacer
@@ -56,10 +56,9 @@
 </template>
 
 <script>
-// import { v4 as uuid } from "uuid";
+import jwt from "jsonwebtoken";
 
 var testsRef;
-var testID;
 
 export default {
   name: "ex_studio_screen",
@@ -70,6 +69,7 @@ export default {
     markDialog: false,
     marks: 0,
     btnLoading: false,
+    testData: "",
     search: "",
     items: [],
     editedItem: [],
@@ -104,7 +104,20 @@ export default {
   },
 
   created() {
-    testID = this.$route.query.id;
+    // Decode query token
+    var token = this.$route.query.t;
+    var data;
+    jwt.verify(token, "navigate_q", function (error, decoded) {
+      if (error == null) data = decoded;
+      else
+        this.$store.dispatch("alertState/message", [
+          "Payment data not found.",
+          "error",
+        ]);
+    });
+    // Set decoded data
+    this.testData = data;
+    //
     testsRef = this.$fire.firestore.collection("tests");
     this.initialize();
   },
@@ -114,7 +127,7 @@ export default {
       try {
         this.loading = true;
         testsRef
-          .doc(testID)
+          .doc(this.testData.id)
           .collection("questions")
           .onSnapshot({ includeMetadataChanges: true }, (querySnapshot) => {
             this.items = [];
