@@ -76,7 +76,7 @@
 <script>
 export default {
   name: "exam-card-compo",
-  props: ["item"],
+  props: ["item", "length_items"],
   data() {
     return {
       selected_answer_s: [],
@@ -115,32 +115,50 @@ export default {
       this.selected_answer_s = [];
     },
     checkAnswer() {
-      if (this.item.question_type == "Single Answer") {
-        if (this.item.currect_answers == this.selected_answer_s) {
-          this.isCurrectAnswer = true;
+      try {
+        if (this.item.question_type == "Single Answer") {
+          if (this.item.currect_answers == this.selected_answer_s) {
+            this.isCurrectAnswer = true;
+          } else {
+            this.isCurrectAnswer = false;
+          }
+        } else if (this.item.question_type == "Multiple Answer") {
+          var value = false;
+          // Find out if have currect answers
+          for (const key in this.selected_answer_s) {
+            value = this.stringToList(this.item.currect_answers).some(
+              (element) => element == this.selected_answer_s[key]
+            );
+            if (!value) break;
+          }
+          // check the currect answers length, if value is true
+          if (value)
+            if (
+              this.stringToList(this.item.currect_answers).length !=
+              this.selected_answer_s.length
+            )
+              value = false;
+
+          // set value to globle variable
+          this.isCurrectAnswer = value;
         } else {
+          // set value to globle variable
           this.isCurrectAnswer = false;
+          console.log("Upload Answer");
         }
-      } else if (this.item.question_type == "Multiple Answer") {
-        var value = false;
-        // Find out if have currect answers
-        for (const key in this.selected_answer_s) {
-          value = this.stringToList(this.item.currect_answers).some(
-            (element) => element == this.selected_answer_s[key]
-          );
-          if (!value) break;
-        }
-        // check the currect answers length, if value is true
-        if (value)
-          if (
-            this.stringToList(this.item.currect_answers).length !=
-            this.selected_answer_s.length
-          )
-            value = false;
-        // set value to globle variable
-        this.isCurrectAnswer = value;
-      } else {
-        console.log("Upload Answer");
+        // Cal marks
+        this.calculateMarks(this.isCurrectAnswer);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    calculateMarks(value) {
+      try {
+        // 100 / this.length_items = One question for mark
+        // value = curect answer or not
+        this.$store.commit("marks/cal_marks", [100 / this.length_items, value]);
+      } catch (error) {
+        console.log(error);
       }
     },
   },

@@ -30,7 +30,7 @@ export default {
   css: ["@/assets/scss/style.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: "@/plugins/helper" }],
+  plugins: [{ src: "@/plugins/helper" }, "~/plugins/vuesax"],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

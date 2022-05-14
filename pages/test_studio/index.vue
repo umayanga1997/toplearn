@@ -23,116 +23,21 @@
         v-for="(item, i) in items"
         :key="item.id"
         :item="{ ...item, index_no: i + 1 }"
+        :length_items="items.length"
       />
     </v-container>
+    <vs-dialog v-model="markDialog">
+      <template #header>
+        <h4 class="not-margin">
+          {{ marks >= 40 ? "Congratulations" : "Ops.." }}
+        </h4>
+      </template>
 
-    <!-- <v-dialog persistent v-model="dialog" max-width="600px">
-      <v-card v-if="dialogType != 'd'">
-        <v-card-title>
-          <span class="text-h5">{{ formTitle }}</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12" md="6" lg="6" sm="12">
-                <v-select
-                  :items="['Single Answer', 'Multiple Answer', 'Upload Answer']"
-                  v-model="editedItem.question_type"
-                  label="Question Type"
-                  dense
-                  outlined
-                ></v-select>
-              </v-col>
-              <v-col cols="12">
-                <v-textarea
-                  v-model="editedItem.question"
-                  label="Question"
-                  dense
-                  outlined
-                  class="text-area-max-height"
-                  height="110"
-                  no-resize
-                ></v-textarea>
-              </v-col>
+      <div class="con-form">
+        {{ marks.toFixed(2) }}
+      </div>
+    </vs-dialog>
 
-              <v-col
-                v-if="editedItem.question_type != 'Upload Answer'"
-                cols="12"
-              >
-                <v-textarea
-                  v-model="editedItem.answers"
-                  label="Answers"
-                  dense
-                  outlined
-                  class="text-area-max-height"
-                  height="110"
-                  no-resize
-                ></v-textarea>
-              </v-col>
-              <v-col
-                v-if="editedItem.question_type != 'Upload Answer'"
-                cols="12"
-              >
-                <v-textarea
-                  v-model="editedItem.currect_answers"
-                  label="Currect Answer(s)"
-                  dense
-                  outlined
-                  class="text-area-max-height"
-                  height="110"
-                  no-resize
-                ></v-textarea>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            :disabled="btnLoading"
-            color="blue darken-1"
-            text
-            @click="close"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            :disabled="btnLoading"
-            :loading="btnLoading"
-            color="blue darken-1"
-            text
-            @click="dialogType == 'a' ? saveData() : updateData()"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-      <v-card v-else>
-        <v-card-title class="text-h5"
-          >Are you sure you want to delete this item?</v-card-title
-        >
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            :disabled="btnLoading"
-            color="blue darken-1"
-            text
-            @click="close"
-            >Cancel</v-btn
-          >
-          <v-btn
-            :disabled="btnLoading"
-            :loading="btnLoading"
-            color="blue darken-1"
-            text
-            @click="deleteData()"
-            >OK</v-btn
-          >
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
-    </v-dialog> -->
     <!-- <v-fab-transition>
       <v-btn
         fab
@@ -162,6 +67,8 @@ export default {
     dialog: false,
     dialogType: "a",
     loading: false,
+    markDialog: false,
+    marks: 0,
     btnLoading: false,
     search: "",
     items: [],
@@ -176,11 +83,23 @@ export default {
     submitionTrigger() {
       return this.$store.getters["submitTrigger/triggerValue"];
     },
+    calculatedQuestions() {
+      return this.$store.getters["marks/question_count"];
+    },
+    totalOfMarks() {
+      return this.$store.getters["marks/total_of_marks"];
+    },
   },
 
   watch: {
     dialog(val) {
       val || this.close();
+    },
+    calculatedQuestions(val) {
+      if (val != 0 && val == this.items.length) {
+        this.marks = this.totalOfMarks;
+        this.markDialog = true;
+      }
     },
   },
 
@@ -224,6 +143,7 @@ export default {
     },
     async reTry() {
       try {
+        this.$store.commit("marks/clearMarks");
         this.$store.commit("submitTrigger/trigger", false);
       } catch (error) {
         console.log(error);
