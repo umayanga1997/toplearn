@@ -121,6 +121,9 @@ export default {
     testsRef = this.$fire.firestore.collection("tests");
     this.initialize();
   },
+  beforeDestroy() {
+    clearInterval(this.setTimeInterval);
+  },
   mounted() {
     this.timerCounter();
   },
