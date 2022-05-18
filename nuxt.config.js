@@ -113,7 +113,14 @@ export default {
       },
     },
   },
-
+  router: {
+    base: process.env.NODE_ENV === "dev" ? "/" : "/app/",
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  // buildDir: "../functions/nuxt",
+  build: {
+    publicPath: "/public/",
+    // vendor: ["isomorphic-fetch"],
+    // extractCSS: true,
+  },
 };

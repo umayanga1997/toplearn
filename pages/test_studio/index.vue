@@ -6,7 +6,7 @@
       <v-toolbar-title class="orange--text"
         >Test Studio -
         <span class="white--text">{{
-          this.testData.topic
+          this.testData.topic != null ? this.testData.topic : ""
         }}</span></v-toolbar-title
       >
       <v-spacer></v-spacer>
@@ -109,11 +109,11 @@ export default {
     var data;
     jwt.verify(token, "navigate_q", function (error, decoded) {
       if (error == null) data = decoded;
-      else
-        this.$store.dispatch("alertState/message", [
-          "Payment data not found.",
-          "error",
-        ]);
+      else console.log("Payment data not found.");
+      // this.$store.dispatch("alertState/message", [
+      //   "Payment data not found.",
+      //   "error",
+      // ]);
     });
     // Set decoded data
     this.testData = data;
