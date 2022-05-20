@@ -6,7 +6,7 @@
         <v-tab> Sign Up </v-tab>
       </v-tabs>
 
-      <v-card-text class="center-card">
+      <v-card-text class="center-card" :class="tab == 1 ? 'card-scroll' : ''">
         <v-avatar size="76" class="ma-5 indigo darken-1"
           ><v-icon size="35">mdi-account</v-icon></v-avatar
         >
@@ -339,7 +339,12 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   & .center-card {
+    // overflow: scroll;
     text-align: center;
+    &.card-scroll {
+      max-height: 300px;
+      overflow-y: scroll;
+    }
   }
 }
 </style>
