@@ -6,16 +6,21 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: "%s - toplearn",
-    title: "toplearn",
+    titleTemplate: "%s - Top-Learn",
+    title: "Top-Learn Academy",
     htmlAttrs: {
       lang: "en",
     },
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" },
-      { name: "format-detection", content: "telephone=no" },
+      {
+        hid: "description",
+        name: "description",
+        content:
+          "Hi friends, We are the Top-Learn Academy in Sri Lanka. We are giving our knowledge to improve your skills and develop your coming day in and day out. Join us today.",
+      },
+      { name: "format-detection", content: "telephone=+94706013294" },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
     script: [
