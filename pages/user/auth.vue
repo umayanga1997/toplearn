@@ -27,7 +27,7 @@
               <v-text-field
                 :rules="[rules.required]"
                 v-model="name_of_trustee"
-                label="Name of Trustee"
+                label="Name of the Guardian"
                 solo
                 dense
                 outlined
