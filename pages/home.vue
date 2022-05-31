@@ -1,11 +1,18 @@
 <template>
   <div>
     <!-- Tool Bar -->
-    <v-app-bar dark dense fixed app color="blue darken-4">
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <v-app-bar dense fixed app class="white">
+      <v-app-bar-nav-icon
+        style="color: #2447a2"
+        @click.stop="drawer = !drawer"
+      ></v-app-bar-nav-icon>
 
       <v-toolbar-title>
-        <img width="110" class="pt-5" src="~/assets/logo/logo-large.png" />
+        <img
+          width="110"
+          class="pt-5"
+          src="~/assets/logo/logo-large-color.png"
+        />
       </v-toolbar-title>
 
       <v-spacer />
@@ -17,7 +24,7 @@
             icon
             @click="filterDialog = !filterDialog"
           >
-            <v-icon color="white">mdi-filter</v-icon>
+            <v-icon color="blue darken-4">mdi-filter</v-icon>
           </v-btn>
         </template>
         <span>Filter</span>
@@ -26,15 +33,15 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn v-bind="attrs" v-on="on" icon @click="signOut()"
-            ><v-icon class="appBar-icon">mdi-logout</v-icon></v-btn
+            ><v-icon color="blue darken-4">mdi-logout</v-icon></v-btn
           >
         </template>
         <span>Sign Out</span>
       </v-tooltip>
 
       <template v-slot:extension>
-        <v-tabs v-model="tab" dark centered color="white">
-          <v-tabs-slider color="orange"></v-tabs-slider>
+        <v-tabs v-model="tab" centered color="">
+          <v-tabs-slider color="orange--text text--darken-3"></v-tabs-slider>
           <v-tab v-for="item in items" :key="item">
             {{ item }}
           </v-tab>
@@ -355,5 +362,12 @@ export default {
   position: absolute;
   background-color: green !important;
   top: 40% !important;
+}
+.v-tab {
+  color: #2447a2 !important;
+}
+.v-tab--active {
+  font-weight: 600;
+  color: #ef6c00 !important;
 }
 </style>
