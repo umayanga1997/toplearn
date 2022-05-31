@@ -3,7 +3,7 @@
     <!-- Tool Bar -->
     <v-app-bar dense fixed app class="white">
       <v-app-bar-nav-icon
-        style="color: #2447a2"
+        style="color: #428e3c"
         @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
 
@@ -24,7 +24,7 @@
             icon
             @click="filterDialog = !filterDialog"
           >
-            <v-icon color="blue darken-4">mdi-filter</v-icon>
+            <v-icon color="green darken-2">mdi-filter</v-icon>
           </v-btn>
         </template>
         <span>Filter</span>
@@ -33,7 +33,7 @@
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn v-bind="attrs" v-on="on" icon @click="signOut()"
-            ><v-icon color="blue darken-4">mdi-logout</v-icon></v-btn
+            ><v-icon color="green darken-2">mdi-logout</v-icon></v-btn
           >
         </template>
         <span>Sign Out</span>
@@ -364,10 +364,11 @@ export default {
   top: 40% !important;
 }
 .v-tab {
-  color: #2447a2 !important;
+  color: #428e3c !important;
+  font-weight: 600;
 }
 .v-tab--active {
-  font-weight: 600;
+  // font-weight: 600;
   color: #ef6c00 !important;
 }
 </style>
