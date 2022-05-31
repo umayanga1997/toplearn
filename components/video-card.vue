@@ -1,12 +1,11 @@
 <template>
-  <div v-if="verification_load"></div>
-  <v-col v-else cols="12" lg="3" md="4" sm="12" class="ma-0 pa-0">
+  <v-col cols="12" lg="3" md="4" sm="12" class="ma-0 pa-0">
     <v-card align="center" v-if="!verified">
       <br />
       <v-icon size="100" color="grey" class="pa-0 ma-0">mdi-youtube</v-icon>
 
       <v-col cols="12" class="pa-0 pb-2 ma-0" align="start">
-        <v-card-title class="orange--text" style="font-weight: 700">
+        <v-card-title style="font-weight: 700">
           {{ item.topic }}
         </v-card-title>
 
@@ -14,14 +13,14 @@
           {{ item.description }}
         </v-card-subtitle>
 
-        <p class="pl-4 pr-3 blue--text">Rs. {{ item.price }}/=</p>
+        <p class="pl-4 pr-3 price-class">Rs. {{ item.price }}/=</p>
         <p class="pl-4 pr-4 mt-4 grey--text">
           Count of Bought : {{ boughtCount }}
         </p>
       </v-col>
-      <v-card-actions class="pr-3 pb-3">
+      <v-card-actions v-if="!verification_load" class="pr-3 pb-3">
         <v-spacer></v-spacer>
-        <v-btn dark @click="buy(item, 'video')" color="green darken-2">
+        <v-btn @click="buy(item, 'video')" color="green darken-2" dark>
           Buy
         </v-btn>
       </v-card-actions>
@@ -40,13 +39,13 @@
         <div class="anti"></div>
       </div>
 
-      <v-card-title class="orange--text" style="font-weight: 700">
+      <v-card-title style="font-weight: 700">
         {{ item.topic }}
       </v-card-title>
 
       <v-card-subtitle> {{ item.description }} </v-card-subtitle>
 
-      <p class="pl-4 pr-3">Rs. {{ item.price }}/=</p>
+      <p class="pl-4 pr-3 price-class">Rs. {{ item.price }}/=</p>
 
       <v-container class="download-class pb-4">
         <v-btn
@@ -85,9 +84,9 @@ export default {
     },
   },
   // created() {},
-  mounted() {
-    this.verification();
-  },
+  // mounted() {
+  //   this.verification();
+  // },
   watch: {
     verificationList(value) {
       this.verification();

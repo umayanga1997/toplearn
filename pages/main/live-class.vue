@@ -24,18 +24,12 @@ export default {
   }),
 
   computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? "New" : "Edit";
-    },
     userData() {
       return this.$store.getters["systemUser/userData"];
     },
   },
 
   watch: {
-    dialog(val) {
-      val || this.close();
-    },
     // From mixin
     filterValue(value) {
       this.items = this.filtering(value, this.originalItems);

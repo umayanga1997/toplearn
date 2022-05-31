@@ -110,7 +110,7 @@
           <!-- <dashboard v-if="index == 0" /> -->
           <videospage v-if="index == 0" />
           <tests v-else-if="index == 1" />
-          <onlineclass v-else />
+          <tutes v-else />
         </v-container>
       </v-tab-item>
     </v-tabs-items>
@@ -161,7 +161,8 @@
 <script>
 import videospage from "@/pages/main/videos.vue";
 import tests from "@/pages/main/tests.vue";
-import onlineclass from "@/pages/main/live-class.vue";
+// import onlineclass from "@/pages/main/live-class.vue";
+import tutes from "@/pages/main/tutes.vue";
 import Cookies from "js-cookie";
 
 var gradesRef;
@@ -173,7 +174,8 @@ export default {
   components: {
     videospage,
     tests,
-    onlineclass,
+    // onlineclass,
+    tutes,
   },
   data() {
     return {
@@ -260,7 +262,8 @@ export default {
       try {
         var videoList = [];
         var testsList = [];
-        var liveClassesList = [];
+        // var liveClassesList = [];
+        var tutesList = [];
         this.$fire.auth.onAuthStateChanged(async (user) => {
           if (user) {
             studentsRef
@@ -283,12 +286,20 @@ export default {
                       testsList.push(element.data()["id"]);
                     });
                   });
+                // await snapshot.ref
+                //   .collection("bought_live_classes")
+                //   .get()
+                //   .then((querySnapshot) => {
+                //     querySnapshot.docs?.forEach((element) => {
+                //       liveClassesList.push(element.data()["id"]);
+                //     });
+                //   });
                 await snapshot.ref
-                  .collection("bought_live_classes")
+                  .collection("bought_tutes")
                   .get()
                   .then((querySnapshot) => {
                     querySnapshot.docs?.forEach((element) => {
-                      liveClassesList.push(element.data()["id"]);
+                      tutesList.push(element.data()["id"]);
                     });
                   });
               })
@@ -296,7 +307,8 @@ export default {
                 this.$store.commit("verification/setData", [
                   videoList,
                   testsList,
-                  liveClassesList,
+                  tutesList,
+                  // liveClassesList,
                 ]);
                 this.loading = false;
               });

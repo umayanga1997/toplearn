@@ -1,18 +1,18 @@
 <template>
   <div>
     <loading-compo v-if="loading" />
-    <v-row v-else justify="center" class="ma-0 pa-0 card-section">
+    <v-row v-else justify="center" class="ma-0 pa-0 card-section" dense>
       <data-not-found v-if="items.length == 0"></data-not-found>
-      <video-card v-else v-for="item in items" :key="item.id" :item="item" />
+      <tute-card v-else v-for="item in items" :key="item.id" :item="item" />
     </v-row>
   </div>
 </template>
 
 <script>
-var videosRef;
+var tutesRef;
 
 export default {
-  name: "videos_screen",
+  name: "tutes_screen",
   data: () => ({
     loading: false,
     btnLoading: false,
@@ -22,8 +22,8 @@ export default {
   }),
 
   computed: {
-    userData() {
-      return this.$store.getters["systemUser/userData"];
+    formTitle() {
+      return this.editedIndex === -1 ? "New" : "Edit";
     },
   },
 
@@ -35,7 +35,7 @@ export default {
   },
 
   created() {
-    videosRef = this.$fire.firestore.collection("videos");
+    tutesRef = this.$fire.firestore.collection("tutes");
     this.initialize();
   },
 
@@ -43,9 +43,9 @@ export default {
     initialize() {
       try {
         this.loading = true;
-        videosRef
-          // .where("teacher_id", "==", this.userData?.teacher_id)
-          .onSnapshot({ includeMetadataChanges: true }, (querySnapshot) => {
+        tutesRef.onSnapshot(
+          { includeMetadataChanges: true },
+          (querySnapshot) => {
             this.items = [];
             this.originalItems = [];
             querySnapshot.docs.forEach((doc) => {
@@ -53,10 +53,11 @@ export default {
               this.originalItems.push(doc.data());
             });
             // Filter Management
-            if (this.filterValue != null || this.filterValue == "")
+            if (this.filterValue != null && this.filterValue != "All")
               this.items = this.filtering(this.filterValue, this.originalItems);
             this.loading = false;
-          });
+          }
+        );
       } catch (error) {
         console.log(error);
         this.loading = false;

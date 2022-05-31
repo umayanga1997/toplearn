@@ -1,21 +1,20 @@
 <template >
-  <div v-if="verification_load"></div>
-  <v-col v-else cols="12" md="6" lg="3" sm="6" xl="2" class="ma-0 pa-0">
+  <v-col cols="12" md="6" lg="3" sm="6" xl="2" class="ma-0 pa-0">
     <v-card>
-      <v-card-title> {{ item.topic }} </v-card-title>
+      <v-card-title style="font-weight: 700"> {{ item.topic }} </v-card-title>
 
       <v-card-subtitle> {{ item.description }} </v-card-subtitle>
       <v-card-subtitle class="pt-0"
         >Duration : {{ item.duration_hr }} Hour</v-card-subtitle
       >
 
-      <p class="pl-4 pr-4">Rs. {{ item.price }}/=</p>
+      <p class="pl-4 pr-4 price-class">Rs. {{ item.price }}/=</p>
 
       <!-- <p class="pl-4 pr-4 mt-4 amber--text">
         Count of Bought : {{ boughtCount }}
       </p> -->
 
-      <v-card-actions class="pr-3 pb-3">
+      <v-card-actions v-if="!verification_load" class="pr-3 pb-3">
         <v-spacer></v-spacer>
 
         <v-btn

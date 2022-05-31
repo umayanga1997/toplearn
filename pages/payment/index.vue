@@ -131,7 +131,7 @@ export default {
                       ? "bought_videos"
                       : this.q_data.buy_item == "test"
                       ? "bought_tests"
-                      : "bought_live_classes"
+                      : "bought_tutes"
                   )
                   .doc(id)
                   .set({
@@ -142,7 +142,7 @@ export default {
                         ? "Video"
                         : this.q_data.buy_item == "test"
                         ? "Test"
-                        : "Live Class",
+                        : "Tute",
                     price: this.q_data.price,
                     bought_date: new Date(),
                     transaction_id: "",
@@ -156,7 +156,7 @@ export default {
                           ? "sold_videos"
                           : this.q_data.buy_item == "test"
                           ? "sold_tests"
-                          : "sold_live_classes"
+                          : "sold_tutes"
                       )
                       .doc(id)
                       .set({
@@ -167,7 +167,7 @@ export default {
                             ? "Video"
                             : this.q_data.buy_item == "test"
                             ? "Test"
-                            : "Live Class",
+                            : "Tute",
                         price: this.q_data.price,
                         sold_date: new Date(),
                         transaction_id: "",

@@ -1,6 +1,5 @@
 <template>
-  <div v-if="verification_load"></div>
-  <v-col v-else cols="12" md="6" lg="3" sm="6" xl="2" class="ma-0 pa-0">
+  <v-col cols="12" md="6" lg="3" sm="6" xl="2" class="ma-0 pa-0">
     <v-card>
       <v-card-title class="pb-0 pt-2"> {{ item.topic }} </v-card-title>
 
@@ -10,7 +9,7 @@
         Count of Enrolment : {{ enrolCount }}
       </p>
 
-      <v-card-actions class="pr-3 pb-3">
+      <v-card-actions v-if="!verification_load" class="pr-3 pb-3">
         <v-spacer></v-spacer>
         <v-btn
           v-if="!verified"
@@ -71,9 +70,9 @@ export default {
       return this.$store.getters["verification/bought_live_classes"];
     },
   },
-  mounted() {
-    this.verification();
-  },
+  // mounted() {
+  //   this.verification();
+  // },
   watch: {
     verificationList(value) {
       this.verification();
