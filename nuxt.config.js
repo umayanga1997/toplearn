@@ -6,8 +6,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: "%s - Top-Learn",
-    title: "Top-Learn Academy",
+    titleTemplate: "%s - TLS",
+    title: "Top Learn-Students",
     htmlAttrs: {
       lang: "en",
     },
@@ -18,11 +18,11 @@ export default {
         hid: "description",
         name: "description",
         content:
-          "Hi friends, We are the Top-Learn Academy in Sri Lanka. We are giving our knowledge to improve your skills and develop your coming day in and day out. Join us today.",
+          "At Top Learn Education, we strongly believe that Education is the most powerful weapon you can use to change the world. We will support relentlessly to solve student problems related to their curriculum at a reasonable cost.",
       },
-      { name: "format-detection", content: "telephone=+94706013294" },
+      { name: "format-detection", content: "telephone=no" },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    link: [{ rel: "icon", type: "image/x-icon", href: "/icon.png" }],
     script: [
       {
         src: "https://cdn.directpay.lk/dev/v1/directpayCardPayment.js?v=1",
@@ -103,7 +103,7 @@ export default {
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,

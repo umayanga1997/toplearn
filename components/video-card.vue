@@ -6,7 +6,7 @@
       <v-icon size="100" color="grey" class="pa-0 ma-0">mdi-youtube</v-icon>
 
       <v-col cols="12" class="pa-0 pb-2 ma-0" align="start">
-        <v-card-title class="orange--text">
+        <v-card-title class="orange--text" style="font-weight: 700">
           {{ item.topic }}
         </v-card-title>
 
@@ -14,14 +14,16 @@
           {{ item.description }}
         </v-card-subtitle>
 
-        <p class="pl-4 pr-3 yellow--text">Rs. {{ item.price }}/=</p>
+        <p class="pl-4 pr-3 blue--text">Rs. {{ item.price }}/=</p>
         <p class="pl-4 pr-4 mt-4 grey--text">
           Count of Bought : {{ boughtCount }}
         </p>
       </v-col>
       <v-card-actions class="pr-3 pb-3">
         <v-spacer></v-spacer>
-        <v-btn @click="buy(item, 'video')" color="green darken-2"> Buy </v-btn>
+        <v-btn dark @click="buy(item, 'video')" color="green darken-2">
+          Buy
+        </v-btn>
       </v-card-actions>
     </v-card>
     <v-card v-else>
@@ -38,26 +40,31 @@
         <div class="anti"></div>
       </div>
 
-      <v-card-title> {{ item.topic }} </v-card-title>
+      <v-card-title class="orange--text" style="font-weight: 700">
+        {{ item.topic }}
+      </v-card-title>
 
       <v-card-subtitle> {{ item.description }} </v-card-subtitle>
 
       <p class="pl-4 pr-3">Rs. {{ item.price }}/=</p>
 
-      <!-- <p class="pl-4 pr-4 mt-4 amber--text">
-        Count of Bought : {{ boughtCount }}
-      </p> -->
-
-      <v-container class="download-class">
-        <a :href="item.note_link" download>
+      <v-container class="download-class pb-4">
+        <v-btn
+          color="white green--text darken-2--text"
+          @click="navigate(item.note_link)"
+          target="__blank"
+        >
           <v-icon>mdi-download</v-icon> <span>Note</span>
-        </a>
-
-        <a class="ml-5" :href="item.summary_link" download
-          ><v-icon>mdi-download</v-icon><span>Summary</span>
-        </a>
+        </v-btn>
+        <v-btn
+          color="white green--text darken-2--text"
+          @click="navigate(item.summary_link)"
+          target="__blank"
+        >
+          <v-icon>mdi-download</v-icon><span>Summary</span>
+        </v-btn>
       </v-container>
-      <br />
+      <!-- <br /> -->
     </v-card>
   </v-col>
 </template>
@@ -78,9 +85,9 @@ export default {
     },
   },
   // created() {},
-  // mounted() {
-  //   this.verification();
-  // },
+  mounted() {
+    this.verification();
+  },
   watch: {
     verificationList(value) {
       this.verification();
@@ -100,6 +107,12 @@ export default {
         this.verification_load = false;
       }
     },
+    navigate(link) {
+      this.$router.push({
+        path: "docviewer",
+        query: { link: link },
+      });
+    },
   },
 };
 </script>
@@ -118,11 +131,15 @@ export default {
   }
 }
 .download-class {
-  & a {
-    color: lightgreen;
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  & button {
+    // color: lightgreen !important;
+    margin-left: 8px;
     text-decoration: none;
     & i {
-      color: lightgreen !important;
+      // color: lightgreen !important;
       padding-right: 2px;
     }
   }

@@ -18,10 +18,15 @@
       <v-card-actions class="pr-3 pb-3">
         <v-spacer></v-spacer>
 
-        <v-btn v-if="verified" icon @click="navigate" color="orange">
-          <v-icon>mdi-note-edit</v-icon>
+        <v-btn
+          color="white green--text darken-2--text"
+          dark
+          v-if="verified"
+          @click="navigate"
+        >
+          <v-icon class="pr-1">mdi-note-edit</v-icon><span>Take test</span>
         </v-btn>
-        <v-btn v-else @click="buy(item, 'test')" color="green darken-2">
+        <v-btn dark v-else @click="buy(item, 'test')" color="green darken-2">
           Buy
         </v-btn>
       </v-card-actions>

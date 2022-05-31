@@ -1,22 +1,40 @@
 <template>
   <div>
     <!-- Tool Bar -->
-    <v-app-bar dark dense fixed app>
+    <v-app-bar dark dense fixed app color="blue darken-4">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>TOP-LEARN</v-toolbar-title>
+      <v-toolbar-title>
+        <img width="110" class="pt-5" src="~/assets/logo/logo-large.png" />
+      </v-toolbar-title>
 
       <v-spacer />
-      <v-btn icon @click="filterDialog = !filterDialog">
-        <v-icon color="orange">mdi-filter</v-icon>
-      </v-btn>
-      <v-btn icon @click="signOut()"
-        ><v-icon class="appBar-icon">mdi-logout</v-icon></v-btn
-      >
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            v-bind="attrs"
+            v-on="on"
+            icon
+            @click="filterDialog = !filterDialog"
+          >
+            <v-icon color="white">mdi-filter</v-icon>
+          </v-btn>
+        </template>
+        <span>Filter</span>
+      </v-tooltip>
+
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on" icon @click="signOut()"
+            ><v-icon class="appBar-icon">mdi-logout</v-icon></v-btn
+          >
+        </template>
+        <span>Sign Out</span>
+      </v-tooltip>
 
       <template v-slot:extension>
-        <v-tabs v-model="tab" centered color="orange">
-          <v-tabs-slider color="yellow"></v-tabs-slider>
+        <v-tabs v-model="tab" dark centered color="white">
+          <v-tabs-slider color="orange"></v-tabs-slider>
           <v-tab v-for="item in items" :key="item">
             {{ item }}
           </v-tab>
@@ -24,7 +42,7 @@
       </template>
     </v-app-bar>
     <!-- Drawer -->
-    <v-navigation-drawer v-model="drawer" fixed bottom temporary>
+    <v-navigation-drawer v-model="drawer" dark fixed bottom temporary>
       <v-list-item :to="'/user/profile'" router>
         <v-list-item-avatar>
           <!-- <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img> -->
@@ -131,7 +149,9 @@
           <v-btn color="red lighten-1" text @click="filterDialog = false">
             Close
           </v-btn>
-          <v-btn color="green darken-2" @click="filterCommit()"> Filter </v-btn>
+          <v-btn color="green darken-2" dark @click="filterCommit()">
+            Filter
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -160,14 +180,9 @@ export default {
       tab: null,
       filterGrade: null,
       filterSubject: null,
-      items: ["Videos", "Tests", "Live Classes"],
+      items: ["Videos", "Tests", "Tutes"],
       gradesList: [],
       subjectsList: [],
-      // drawerItems: [
-      //   // { title: "Dashboard", icon: "mdi-view-dashboard", to: "/dashboard" },
-      //   // { title: "Profile", icon: "mdi-account-circle", to: "/user/profile" },
-      // ],
-      // topicListData: [],
       drawer: false,
       loading: false,
       show: false,
@@ -188,6 +203,7 @@ export default {
       return this.$store.getters["systemUser/userData"];
     },
   },
+
   methods: {
     async signOut() {
       try {
@@ -220,7 +236,7 @@ export default {
             this.gradesList = [];
             this.gradesList.push("All");
             querySnapshot.docs.forEach((doc) => {
-              this.gradesList.push(doc.data()["grade_name"]);
+              this.gradesList.push(doc.data()["grade"]);
             });
           }
         );
@@ -286,9 +302,18 @@ export default {
               });
           }
         });
+        this.openWgDialog();
       } catch (error) {
         console.log(error);
         this.loading = false;
+      }
+    },
+    openWgDialog() {
+      var value = this.filterValue;
+      if (value == null || value == "") this.filterDialog = true;
+      else {
+        this.filterGrade = value[0];
+        this.filterSubject = value[1];
       }
     },
     filterCommit() {
@@ -302,9 +327,9 @@ export default {
 </script>
 
 <style lang="scss">
-.tab_container {
-  background-color: #121212 !important;
-}
+// .tab_container {
+//   // background-color: #121212 !important;
+// }
 .card-section {
   gap: 15px;
   white-space: normal;

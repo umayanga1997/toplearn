@@ -8,7 +8,6 @@
             <v-text-field
               v-model="name"
               label="Name"
-              solo
               dense
               outlined
               required
@@ -18,7 +17,6 @@
             <v-text-field
               v-model="name_of_trustee"
               label="Name of Trustee"
-              solo
               dense
               outlined
               required
@@ -28,7 +26,6 @@
             <v-text-field
               v-model="mobile_no"
               label="Mobile No"
-              solo
               dense
               outlined
               required
@@ -55,7 +52,7 @@
               @click="resetPassword()"
               :loading="btnLoadingReset"
               :disabled="btnDisable"
-              class="red darken-4 ma-0 white--text"
+              class="blue darken-4 ma-0 white--text"
               dark
               >Reset Password</v-btn
             >
@@ -64,8 +61,8 @@
       </v-card-text>
       <v-card-actions class="center-action">
         <v-btn
-          class="low-case-btn red--text text--lighten-3"
-          text
+          class="low-case-btn white red--text text--darken-4"
+          
           :loading="btnLoadingDelete"
           :disabled="btnDisable"
           @click="deleteAccount"

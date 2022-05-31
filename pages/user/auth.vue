@@ -1,14 +1,14 @@
 <template>
   <v-col class="main-compo" cols="12" md="4" sm="6" xl="4" lg="3">
     <v-card elevation="2" class="pa-4">
-      <v-tabs v-model="tab" color="orange">
+      <v-tabs v-model="tab" class="blue" color="orange darken-3">
         <v-tab> Sign In </v-tab>
         <v-tab> Sign Up </v-tab>
       </v-tabs>
 
       <v-card-text class="center-card" :class="tab == 1 ? 'card-scroll' : ''">
         <v-avatar size="76" class="ma-5 indigo darken-1"
-          ><v-icon size="35">mdi-account</v-icon></v-avatar
+          ><v-icon size="35" color="white">mdi-account</v-icon></v-avatar
         >
         <v-form ref="form" lazy-validation>
           <div v-if="tab == 1">
@@ -17,7 +17,6 @@
                 :rules="[rules.required]"
                 v-model="name"
                 label="Name"
-                solo
                 dense
                 outlined
                 required
@@ -28,7 +27,6 @@
                 :rules="[rules.required]"
                 v-model="name_of_trustee"
                 label="Name of the Guardian"
-                solo
                 dense
                 outlined
                 required
@@ -39,7 +37,6 @@
                 :rules="[rules.required]"
                 v-model="mobile_no"
                 label="Mobile No"
-                solo
                 dense
                 outlined
                 required
@@ -51,7 +48,6 @@
               v-model="email"
               :rules="[rules.required, rules.email]"
               label="E-mail"
-              solo
               dense
               outlined
               required
@@ -68,7 +64,6 @@
               "
               @click:append="isPassShow = !isPassShow"
               dense
-              solo
               outlined
               required
             ></v-text-field>
@@ -82,7 +77,6 @@
           :loading="btnLoading"
           :disabled="btnLoading"
           class="green darken-2 ma-0 pa-4 mr-5 white--text"
-          dark
           >{{ tab == 0 ? "Sign In" : "Sign Up" }}</v-btn
         >
       </v-card-actions>
