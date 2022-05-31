@@ -160,7 +160,7 @@ export default {
                       )
                       .doc(id)
                       .set({
-                        b_id: id,
+                        s_id: id,
                         id: this.q_data.id,
                         type:
                           this.q_data.buy_item == "video"
