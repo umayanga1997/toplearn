@@ -133,7 +133,7 @@ export default {
 .download-class {
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   & button {
     // color: lightgreen !important;
     margin-left: 8px;
