@@ -53,14 +53,15 @@
           @click="navigate(item.note_link)"
           target="__blank"
         >
-          <v-icon>mdi-download</v-icon> <span>Note</span>
+          <v-icon>mdi-download</v-icon> <span class="btn-width-txt">Note</span>
         </v-btn>
         <v-btn
           color="white green--text darken-2--text"
           @click="navigate(item.summary_link)"
           target="__blank"
         >
-          <v-icon>mdi-download</v-icon><span>Summary</span>
+          <v-icon>mdi-download</v-icon
+          ><span class="btn-width-txt">Summary</span>
         </v-btn>
       </v-container>
       <!-- <br /> -->

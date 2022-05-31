@@ -23,7 +23,8 @@
           v-if="verified"
           @click="navigate"
         >
-          <v-icon class="pr-1">mdi-note-edit</v-icon><span>Take test</span>
+          <v-icon class="pr-1">mdi-note-edit</v-icon
+          ><span class="btn-width-txt">Take test</span>
         </v-btn>
         <v-btn dark v-else @click="buy(item, 'test')" color="green darken-2">
           Buy

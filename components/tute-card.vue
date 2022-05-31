@@ -37,7 +37,7 @@
           @click="navigate(item.tute_link)"
           target="__blank"
         >
-          <v-icon>mdi-download</v-icon> <span>Note</span>
+          <v-icon>mdi-download</v-icon> <span class="btn-width-txt">Note</span>
         </v-btn>
         <v-btn dark v-else @click="buy(item, 'tute')" color="green darken-2">
           Buy

@@ -27,10 +27,15 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.price-class{
+.price-class {
   color: #e47d00;
   font-weight: 700;
 }
+
+.btn-width-txt {
+  font-weight: 700;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 8px;

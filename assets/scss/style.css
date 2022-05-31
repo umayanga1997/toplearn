@@ -36,6 +36,10 @@
   font-weight: 700;
 }
 
+.btn-width-txt {
+  font-weight: 700;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 8px;
