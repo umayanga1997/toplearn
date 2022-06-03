@@ -2,7 +2,7 @@ import colors from "vuetify/es5/util/colors";
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: true,
+  ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -121,7 +121,7 @@ export default {
   //   base: process.env.NODE_ENV === "dev" ? "/" : "/",
   // },
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  buildDir: "../functions/nuxt",
+  // buildDir: "../functions/nuxt",
   build: {
     publicPath: "/public/",
     // vendor: ["isomorphic-fetch"],
