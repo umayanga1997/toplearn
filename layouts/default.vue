@@ -66,4 +66,13 @@ export default {
 };
 </script>
 
-
+<style lang="scss">
+.v-main {
+  background-image: url("~@/assets/images/back 2.jpg") !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.v-window {
+  background-color: transparent !important;
+}
+</style>
