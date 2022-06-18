@@ -12,12 +12,16 @@
     <input
       type="hidden"
       name="returnUrl"
-      value="http://mywebsite.com/return?orderId=OID123456"
+      :value="
+        'https://top-learn-81d57.web.app/payment/success?orderId=' + orderId
+      "
     />
     <input
       type="hidden"
       name="cancelUrl"
-      value="http://mywebsite.com/cancel?orderId=OID123456"
+      :value="
+        'https://top-learn-81d57.web.app/payment/error?orderId=' + orderId
+      "
     />
     <input type="hidden" name="subMerchantReference" value="" />
     <!-- Optional -->
