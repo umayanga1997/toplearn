@@ -20,9 +20,10 @@
       </v-col>
       <v-card-actions v-if="!verification_load" class="pr-3 pb-3">
         <v-spacer></v-spacer>
-        <v-btn @click="buy(item, 'video')" color="green darken-2" dark>
+        <buy-btn :item="item" item_type="video" />
+        <!-- <v-btn @click="buy(item, 'video')" color="green darken-2" dark>
           Buy
-        </v-btn>
+        </v-btn> -->
       </v-card-actions>
     </v-card>
     <v-card v-else>

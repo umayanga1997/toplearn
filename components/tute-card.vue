@@ -39,9 +39,10 @@
         >
           <v-icon>mdi-download</v-icon> <span class="btn-width-txt">Note</span>
         </v-btn>
-        <v-btn dark v-else @click="buy(item, 'tute')" color="green darken-2">
+        <buy-btn :item="item" item_type="tute" />
+        <!-- <v-btn dark v-else @click="buy(item, 'tute')" color="green darken-2">
           Buy
-        </v-btn>
+        </v-btn> -->
       </v-container>
     </v-card>
   </v-col>
