@@ -14,9 +14,9 @@
         </v-card-subtitle>
 
         <p class="pl-4 pr-3 price-class">Rs. {{ item.price }}/=</p>
-        <p class="pl-4 pr-4 mt-4 grey--text">
+        <!-- <p class="pl-4 pr-4 mt-4 grey--text">
           Count of Bought : {{ boughtCount }}
-        </p>
+        </p> -->
       </v-col>
       <v-card-actions v-if="!verification_load" class="pr-3 pb-3">
         <v-spacer></v-spacer>
@@ -75,7 +75,7 @@ export default {
   props: ["item"],
   data() {
     return {
-      boughtCount: 0,
+      // boughtCount: 0,
       verification_load: true,
       verified: false,
     };
