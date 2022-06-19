@@ -26,7 +26,7 @@
           <v-icon class="pr-1">mdi-note-edit</v-icon
           ><span class="btn-width-txt">Take test</span>
         </v-btn>
-        <buy-btn :item="item" item_type="test" />
+        <buy-btn v-else :item="item" item_type="test" />
         <!-- <v-btn dark v-else @click="buy(item, 'test')" color="green darken-2">
           Buy
         </v-btn> -->
