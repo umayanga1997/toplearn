@@ -279,6 +279,7 @@ export default {
               .then(async (snapshot) => {
                 await snapshot.ref
                   .collection("bought_videos")
+                  .where("isExpired", "==", false)
                   .get()
                   .then((querySnapshot) => {
                     querySnapshot.docs?.forEach((element) => {
@@ -287,6 +288,7 @@ export default {
                   });
                 await snapshot.ref
                   .collection("bought_tests")
+                  .where("isExpired", "==", false)
                   .get()
                   .then((querySnapshot) => {
                     querySnapshot.docs?.forEach((element) => {
@@ -303,6 +305,7 @@ export default {
                 //   });
                 await snapshot.ref
                   .collection("bought_tutes")
+                  .where("isExpired", "==", false)
                   .get()
                   .then((querySnapshot) => {
                     querySnapshot.docs?.forEach((element) => {
